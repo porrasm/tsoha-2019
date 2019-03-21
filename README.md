@@ -1,5 +1,9 @@
 # ReadIt Forum
 
+## About
+
+ReadIt Forum is an online forum inspired by Reddit. Users can create threads, post comments and like/dislike posts and comments. 
+
 ## Links
 
 [ReadIt Forum on Heroku](https://readit-forum.herokuapp.com/)
