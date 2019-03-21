@@ -2,14 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>TodoApp</title>
+    <title>ReadIt</title>
   </head>
-
+  
   <body>
+    <ul>
+<li><a href="{{ url_for('posts_index') }}">List Posts</a></li>
+<li><a href="{{ url_for('posts_form') }}">Post a new post!</a></li>
+    </ul>
+    
     {% block body %}
-      <p>
-        Content.
-      </p>
+    <p>
+Content.
+    </p>
     {% endblock %}
   </body>
 </html>

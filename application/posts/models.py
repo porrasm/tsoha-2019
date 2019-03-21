@@ -11,9 +11,11 @@ class Post(db.Model):
 
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    def __init__(self, title, text):
+    def __init__(self, title, text, upvotes, downvotes):
         self.title = title
         self.text = text
+        self.upvotes = upvotes
+        self.downvotes = downvotes
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
