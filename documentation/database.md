@@ -5,7 +5,7 @@
 
 # Database structure
 
-![Database schema](https://github.com/porrasm/tsoha-2019/blob/master/dokumentaatio/database_schema_idea.png)
+![Database schema](https://github.com/porrasm/tsoha-2019/blob/master/documentation/database_schema_idea.png)
 
 This is a simple draft of the database schema.
 
