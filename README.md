@@ -4,9 +4,9 @@
 
 [ReadIt Forum on Heroku](https://readit-forum.herokuapp.com/)
 
-[Requirement specification](https://github.com/porrasm/tsoha-2019/blob/master/dokumentaatio/requirement_specification.md)
+[Requirement specification](https://github.com/porrasm/tsoha-2019/blob/master/documentation/requirement_specification.md)
 
-[Database structure](https://github.com/porrasm/tsoha-2019/blob/master/dokumentaatio/database.md)
+[Database structure](https://github.com/porrasm/tsoha-2019/blob/master/documentation/database.md)
 
 ## About
 
