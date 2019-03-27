@@ -1,5 +1,5 @@
 from flask import Flask
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
 from flask_sqlalchemy import SQLAlchemy
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
