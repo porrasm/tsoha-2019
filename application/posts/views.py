@@ -1,11 +1,16 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
-from application.posts.models import Post
-
+from application.posts.models import Post, post_schema
+from flask import jsonify
+from flask_marshmallow import Marshmallow
 
 @app.route("/posts", methods=["GET"])
 def posts_index():
-    return render_template("posts/list.html", posts = Post.query.all())
+    # posts = Post.query.all()
+    # return flask.jsonify(posts)
+    # return render_template("posts/list.html", posts = Post.query.all())
+    posts = post_schema.dump(Post.query.all()).data
+    return jsonify(posts)
 
 @app.route("/posts/new/")
 def posts_form():

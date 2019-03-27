@@ -1,29 +1,24 @@
 import React from "react";
-import Hello from "./Hello";
-import { PageHeader } from "react-bootstrap";
+// import Hello from "./Hello";
+// import { PageHeader } from "react-bootstrap";
 
-require('../css/fullstack.css');
-var $ = require('jquery');
-
-import HeaderBackgroundImage from '../images/header.jpg';
+// require('../css/fullstack.css');
+// var $ = require('jquery');
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
     }
-    addHeaderImg() {
-        let headerBg = new Image();
-        headerBg.src = HeaderBackgroundImage;
-    }
 
-    render () {
+    render() {
         return (
-            <PageHeader>
-                <div className='header-contents'>
-                {this.addHeaderImg()}
-                <Hello name='Rimini' />
-                </div>
-            </PageHeader>
+            <div>
+
+                <h1>Welcome to my React app!</h1>
+                <p>
+                    This is only a prototype
+                </p>
+            </div>
         );
     }
 }
