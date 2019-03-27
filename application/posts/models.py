@@ -1,4 +1,4 @@
-from application import db
+from application import db, ma
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,3 +29,18 @@ class Comment(db.Model):
 
     def __init__(self, title, text):
         self.text = text
+
+## Schemas
+
+class CommentSchema(ma.ModelSchema):
+    class Meta:
+        model = Post
+
+class PostSchema(ma.ModelSchema):
+    class Meta:
+        model = Post
+
+post_schema = PostSchema()
+posts_schema = PostSchema(many=True)
+
+comment_schema = CommentSchema()
