@@ -125,5 +125,5 @@ dmypy.json
 tasks.db
 database.db
 
-.vscode
+.vscode/
 node_modules/
