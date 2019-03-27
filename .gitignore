@@ -126,3 +126,4 @@ tasks.db
 database.db
 
 .vscode
+node_modules
