@@ -17,16 +17,17 @@ def posts_index():
 
     return jsonify(posts)
 
-@app.route("/posts/new/")
+@app.route("/posts/new/", methods=["GET"])
 def posts_form():
     return render_template("posts/new.html")
 
-@app.route("/posts/", methods=["POST"])
-def posts_create():
-    print("Trying to create post...")
-    print(request.form.get("title"))
+@app.route("/posts", methods=["POST"])
+def posts_create(): 
+    content = request.get_json(silent=True)
+
+    print("Trying to create post: ", content["title"])
   
-    post = Post(request.form.get("title"), request.form.get("text"), 0, 0)
+    post = Post(content["title"], content["text"], 0, 0)
 
     db.session().add(post)
     db.session().commit()

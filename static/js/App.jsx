@@ -1,11 +1,10 @@
 import React from "react";
-// import Hello from "./Hello";
-// import { PageHeader } from "react-bootstrap";
+import { Menu } from 'semantic-ui-react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-// require('../css/fullstack.css');
-// var $ = require('jquery');
-
+import MenuViews from './MenuViews'
 import PostList from './components/PostList'
+import PostForm from './components/PostForm'
 
 export default class App extends React.Component {
     constructor(props) {
@@ -18,10 +17,17 @@ export default class App extends React.Component {
 
                 <h1>Welcome to my React app!</h1>
                 <p>
-                    This is only a prototype
+                    This is only a prototype!
                 </p>
 
-                <PostList />
+                <Router>
+                    <div>
+                        <MenuViews.Menus />
+
+                        <Route exact path="/" render={() => <PostList />} />
+                        <Route exact path="/posts/new" render={() => <PostForm />} />
+                    </div>
+                </Router>
 
             </div>
         );

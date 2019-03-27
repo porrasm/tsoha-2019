@@ -1,9 +1,14 @@
 import axios from 'axios'
-const baseurl = "/posts"
+const baseUrl = "/posts"
 
 const getAll = async () => {
-    const response = await axios.get(baseurl)
+    const response = await axios.get(baseUrl)
     return response.data
 }
 
-export default { getAll }
+const create = async (newObject) => {
+    const response = await axios.post(baseUrl, newObject)
+    return response.data
+}
+
+export default { getAll, create }
