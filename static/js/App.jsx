@@ -5,6 +5,8 @@ import React from "react";
 // require('../css/fullstack.css');
 // var $ = require('jquery');
 
+import PostList from './components/PostList'
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +20,9 @@ export default class App extends React.Component {
                 <p>
                     This is only a prototype
                 </p>
+
+                <PostList />
+
             </div>
         );
     }

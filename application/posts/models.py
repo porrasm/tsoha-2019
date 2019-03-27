@@ -41,4 +41,6 @@ class PostSchema(ma.ModelSchema):
         model = Post
 
 post_schema = PostSchema()
+posts_schema = PostSchema(many=True)
+
 comment_schema = CommentSchema()
