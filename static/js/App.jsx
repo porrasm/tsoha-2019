@@ -25,6 +25,7 @@ export default class App extends React.Component {
                         <MenuViews.Menus />
 
                         <Route exact path="/" render={() => <PostList />} />
+                        <Route exact path="/posts/:id" render={() => <Post id={this.props.match.params.id} />} />
                         <Route exact path="/posts/new" render={() => <PostForm />} />
                     </div>
                 </Router>
