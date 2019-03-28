@@ -14,6 +14,7 @@ def user_login():
     user = User.query.filter_by(username=content["username"], password=content["password"]).first()
 
     if not user:
+        # SEND HTTP CODE 401
         return jsonify(None)
 
     return jsonify(user_schema.dump(user).data)

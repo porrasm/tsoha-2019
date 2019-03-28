@@ -13,8 +13,12 @@ const getOne = async (id) => {
 }
 
 const login = async (user) => {
-    const response = await axios.post(baseUrl + "login", user)
-    return response.data
+    try {
+        const response = await axios.post(baseUrl + "login", user)
+        return response.data
+    } catch (error) {
+        return error
+    }
 }
 
 export default { getAll, getOne, login }
