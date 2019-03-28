@@ -1,4 +1,6 @@
 import React from 'react'
+import Post from './Post'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import posts from '../services/posts'
 
@@ -23,7 +25,7 @@ class PostList extends React.Component {
         })
     }
 
-    
+
 
     render() {
 
@@ -42,26 +44,35 @@ const postListings = (posts) => {
 
     return (
         <Table>
-                <Table.Body>
+            <Table.Body>
 
-                    {posts.map(post => singlePost(post))}
+                {posts.map(post => singlePost(post))}
 
-                </Table.Body>
-            </Table>
+            </Table.Body>
+        </Table>
     )
 }
 
 const singlePost = (post) => {
+
+    const postUrl = "/posts/" + post.id
+    console.log(postUrl)
+
     return (
-            <Table.Row key={post.id}>
-                <Table.Cell>
-                    <Message>
-                        <Message.Header>{post.title}</Message.Header>
-                        <p>{post.text}</p>
-                    </Message>
-                </Table.Cell>
-            </Table.Row>
+        <Table.Row key={post.id}>
+            <Table.Cell>
+                <Message>
+                    <Message.Header><Link to={postUrl}>{post.title}</Link></Message.Header>                  
+                    <p>{post.text}</p>                        
+                </Message>
+            </Table.Cell>
+        </Table.Row>
     )
 }
+
+/*
+<p>POST LINK <Link to={postUrl}>Posts</Link></p>
+                    <p>{post.text}</p> 
+*/
 
 export default PostList
