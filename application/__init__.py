@@ -14,5 +14,8 @@ from application import views
 
 from application.posts import models
 from application.posts import views
+
+from application.users import models
+from application.users import views
   
 db.create_all()

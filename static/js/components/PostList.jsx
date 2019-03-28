@@ -1,5 +1,5 @@
 import React from 'react'
-import Post from './Post'
+
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import posts from '../services/posts'
@@ -55,7 +55,7 @@ const postListings = (posts) => {
 
 const singlePost = (post) => {
 
-    const postUrl = "/posts/" + post.id
+    const postUrl = "/posts/get/" + post.id
     console.log(postUrl)
 
     return (

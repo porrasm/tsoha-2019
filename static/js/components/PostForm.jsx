@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react';
 import posts from '../services/posts'
+import { Form, TextArea, Button } from 'semantic-ui-react'
 
 class PostForm extends React.Component {
     constructor(props) {
@@ -8,7 +9,7 @@ class PostForm extends React.Component {
             title: '',
             text: ''
         }
-    }
+    }  
 
     createPost(event) {
         event.preventDefault()
@@ -29,19 +30,16 @@ class PostForm extends React.Component {
             })
         })
 
-        
+
     }
 
     handleChange(event) {
-
-        console.log('trying to set state: ', event.target)
-        console.log(this)
-
         this.setState({ [event.target.name]: event.target.value })
     }
 
     render() {
-        return(
+
+        return (
             <div>
                 <h2>Create post</h2>
 
@@ -68,6 +66,37 @@ class PostForm extends React.Component {
             </div>
         )
     }
+
+    /* renderOld() {
+         return (
+             <div>
+                 <h2>Create post</h2>
+ 
+                 <form onSubmit={this.createPost.bind(this)}>
+                     <div>
+                         Title
+                         <input
+                             value={this.state.title}
+                             name='title'
+                             onChange={this.handleChange.bind(this)}
+                         />
+                     </div>
+                     <div>
+                         Text
+                         <input
+                             value={this.state.text}
+                             name='text'
+                             onChange={this.handleChange.bind(this)}
+                         />
+                     </div>
+ 
+                     <button type="submit">Create post</button>
+                 </form>
+             </div>
+         )
+     }
+ 
+     */
 }
 
 export default PostForm

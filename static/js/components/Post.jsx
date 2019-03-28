@@ -1,12 +1,17 @@
 import React from "react";
+import posts from '../services/posts'
 import { Table, Message, Container, Divider } from 'semantic-ui-react'
 
 class Post extends React.Component {
     constructor(props) {
         super(props)
 
+        console.log('PROPS: ', this.props)
+
+        const id = this.props.match.params.id
+
         this.state = {
-            id: props.id,
+            id: id,
             post: null
         }
     }
@@ -28,13 +33,15 @@ class Post extends React.Component {
             )
         }
 
+        
+
         return (
             <div>
-                <Container textAlign='left'>Left Aligned</Container>
-                <Container textAlign='center'>Center Aligned</Container>
-                <Container textAlign='right'>Right Aligned</Container>
-                <Container textAlign='justified'>
-                    <b>{this.state.post.title}</b>
+                <Container textAlign='center'>
+                <h2>{this.state.post.title}</h2>
+                </Container>
+                <Container textAlign='left'>
+                    
                     <Divider />
                     <p>
                         {this.state.post.text}
@@ -44,3 +51,5 @@ class Post extends React.Component {
         )
     }
 }
+
+export default Post
