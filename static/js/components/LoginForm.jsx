@@ -36,11 +36,15 @@ class LoginForm extends React.Component {
             } else {
 
                 console.log('Login was succesful', res)
+                
+                localStorage.setItem("user_username", res.user.username)
+                localStorage.setItem("user_access_token", res.access_token)
+                localStorage.setItem("user_refresh_token", res.refresh_token)
 
                 this.setState({
                     username: '',
                     password: '',
-                    message: `Succesfully logged in as ${res.username}`
+                    message: `Succesfully logged in as ${res.user.username}`
                 })
             }
         })
