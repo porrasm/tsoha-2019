@@ -8,12 +8,26 @@ import PostForm from './components/PostForm'
 import Post from './components/Post'
 import LoginForm from "./components/LoginForm";
 
-export default class App extends React.Component {
+import { connect } from 'react-redux'
+import { setCurrentUser } from './reducers/userReducer'
+
+class App extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    componentWillMount() {
+        const loggedUserJSON = window.localStorage.getItem('user')
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON)
+            console.log("calling setCurrentUser: ", user)
+            this.props.setCurrentUser(user)
+        }
+    }
+
     render() {
+
+        console.log("REDUX PROPS: ", this.props)
 
         return (
             <div>
@@ -38,3 +52,22 @@ export default class App extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+
+    console.log('App mapState: ', state)
+
+    return {
+        userContainer: state.userContainer,
+    }
+}
+const mapDispatchToProps = {
+    setCurrentUser
+}
+
+const ConnectedApp = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App)
+
+export default ConnectedApp

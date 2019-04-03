@@ -1,5 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from './App'
+import store from './store'
+import { Provider } from 'react-redux'
 
-ReactDOM.render(<App />, document.getElementById("content"));
+
+const render = () => {
+    ReactDOM.render(
+        <Provider store={store}>
+            <App />
+        </Provider>
+        , document.getElementById("content")
+    )
+}
+
+render()
+store.subscribe(render)
