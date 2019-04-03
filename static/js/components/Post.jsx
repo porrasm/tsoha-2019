@@ -33,8 +33,6 @@ class Post extends React.Component {
             )
         }
 
-        
-
         return (
             <div>
                 <Container textAlign='center'>

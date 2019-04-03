@@ -2,31 +2,68 @@ import React from "react";
 import { Menu } from 'semantic-ui-react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-const Menus = () => (
-    <div>
-        <Menu inverted>
-            
-            <Menu.Item link>
-                <Link to="/posts/new">Create new post</Link>
-            </Menu.Item>
+import { connect } from 'react-redux'
+import { setCurrentUser } from './reducers/userReducer'
 
-            <Menu.Item link>
-                <Link to="/">Posts</Link>
-            </Menu.Item>
+import userReducer from './reducers/userReducer'
 
-            <Menu.Item link>
+class Menus extends React.Component {
+
+    logout() {
+        if (window.confirm("Are you sure you want to sign out?")) {
+            localStorage.removeItem("user")
+            this.props.setCurrentUser()
+        }
+    }
+
+    render() {
+
+        const user = this.props.userContainer.current_user
+
+        const userButton = user ?
+            (<Menu.Item onClick={this.logout.bind(this)}>
+                Sign out
+        </Menu.Item>) :
+            (<Menu.Item link>
                 <Link to="/login">Login</Link>
-            </Menu.Item>
+            </Menu.Item>)
 
-            <Menu.Item link>
-                <Link to="/login">Register</Link>
-            </Menu.Item>
 
-            <Menu.Item link>
-                <Link to="/login">Sign out</Link>
-            </Menu.Item>
-        </Menu>
-    </div>
-)
+        return (
+            <div>
+                <Menu inverted>
 
-export default { Menus }
+                    <Menu.Item link>
+                        <Link to="/posts/new">Create new post</Link>
+                    </Menu.Item>
+
+                    <Menu.Item link>
+                        <Link to="/">Posts</Link>
+                    </Menu.Item>
+
+                    {userButton}
+
+                    <Menu.Item link>
+                        <Link to="/login">Register</Link>
+                    </Menu.Item>
+                </Menu>
+            </div>
+        )
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        userContainer: state.userContainer,
+    }
+}
+const mapDispatchToProps = {
+    setCurrentUser
+}
+
+const ConnectedMenus = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Menus)
+
+export default { Menus: ConnectedMenus }

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import users from '../services/users'
-import { Form, TextArea, Button } from 'semantic-ui-react'
+import { Form, TextArea, Button, Message } from 'semantic-ui-react'
+
+import { connect } from 'react-redux'
+import { setCurrentUser } from '../reducers/userReducer'
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -10,7 +13,7 @@ class LoginForm extends React.Component {
             password: '',
             message: null
         }
-    }  
+    }
 
     login(event) {
         event.preventDefault()
@@ -36,15 +39,24 @@ class LoginForm extends React.Component {
             } else {
 
                 console.log('Login was succesful', res)
-                
+
+                this.props.setCurrentUser(res.user)
                 localStorage.setItem("user", JSON.stringify(res.user))
 
                 this.setState({
                     username: '',
                     password: '',
-                    message: `Succesfully logged in as ${res.user.username}`
+                    message: `You are logged in as ${res.user.username}`
                 })
             }
+        })
+    }
+
+    logout() {
+        localStorage.removeItem("user")
+        this.props.setCurrentUser()
+        this.setState({
+            message: null
         })
     }
 
@@ -55,37 +67,68 @@ class LoginForm extends React.Component {
     render() {
 
         const message = this.state.message ? (<p>{this.state.message}</p>) : null
+        const user = this.props.userContainer.current_user
 
-        return (
-            <div>
-                <h2>Login</h2>
+        if (user) {
+            return (
+                <div>
+                    <Message>
+                        <p>You are logged in as {user.username}</p>
+                    </Message>
 
-                {message}
 
-                <form onSubmit={this.login.bind(this)}>
-                    <div>
-                        Username
+                    <button onClick={this.logout.bind(this)}>
+                        Sign out
+                </button>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h2>Login</h2>
+
+                    {message}
+
+                    <form onSubmit={this.login.bind(this)}>
+                        <div>
+                            Username
                         <input
-                            value={this.state.username}
-                            name='username'
-                            onChange={this.handleChange.bind(this)}
-                        />
-                    </div>
-                    <div>
-                        Password
+                                value={this.state.username}
+                                name='username'
+                                onChange={this.handleChange.bind(this)}
+                            />
+                        </div>
+                        <div>
+                            Password
                         <input
-                            type='password'
-                            value={this.state.password}
-                            name='password'
-                            onChange={this.handleChange.bind(this)}
-                        />
-                    </div>
+                                type='password'
+                                value={this.state.password}
+                                name='password'
+                                onChange={this.handleChange.bind(this)}
+                            />
+                        </div>
 
-                    <button type="submit">Login</button>
-                </form>
-            </div>
-        )
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+            )
+        }
     }
 }
 
-export default LoginForm
+
+const mapStateToProps = (state) => {
+    return {
+        userContainer: state.userContainer,
+    }
+}
+const mapDispatchToProps = {
+    setCurrentUser
+}
+
+const ConnectedLoginForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginForm)
+
+export default ConnectedLoginForm
