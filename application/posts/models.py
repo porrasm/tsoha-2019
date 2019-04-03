@@ -44,3 +44,4 @@ post_schema = PostSchema()
 posts_schema = PostSchema(many=True)
 
 comment_schema = CommentSchema()
+comments_schema = CommentSchema(many=True)

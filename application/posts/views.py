@@ -4,6 +4,7 @@ from application.posts.models import Post, post_schema, posts_schema
 from flask import jsonify
 from flask_marshmallow import Marshmallow
 
+
 # All posts
 @app.route("/posts", methods=["GET"])
 def posts_index():
@@ -19,18 +20,14 @@ def posts_index():
     return jsonify(posts)
 
 # Single pos
-@app.route("/posts/<post_id>/", methods=["GET"])
+@app.route("/posts/get/<post_id>/", methods=["GET"])
 def posts_get(post_id):
 
     post = post_schema.dump(Post.query.get(post_id)).data
 
-    print("Returning post: ", post.title)
+    print("Returning post: ", post["title"])
 
     return jsonify(post)
-
-@app.route("/posts/new/", methods=["GET"])
-def posts_form():
-    return render_template("posts/new.html")
 
 @app.route("/posts", methods=["POST"])
 def posts_create(): 
@@ -43,7 +40,7 @@ def posts_create():
     db.session().add(post)
     db.session().commit()
 
-    return redirect(url_for("posts_index"))
+    return render_template("index.html")
 
 @app.route("/posts/like/<post_id>/", methods=["POST"])
 def posts_like(post_id):
@@ -52,7 +49,7 @@ def posts_like(post_id):
     post.upvotes += 1
     db.session().commit()
   
-    return redirect(url_for("posts_index"))
+    return jsonify(True)
 
 @app.route("/posts/dislike/<post_id>/", methods=["POST"])
 def posts_dislike(post_id):
@@ -61,4 +58,4 @@ def posts_dislike(post_id):
     post.downvotes += 1
     db.session().commit()
   
-    return redirect(url_for("posts_index"))
+    return jsonify(True)

@@ -47,7 +47,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "react-redux": "^5.1.1",
     "react-router-dom": "^5.0.0",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.86.0"
   }
 }
