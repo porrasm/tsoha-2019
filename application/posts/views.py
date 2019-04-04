@@ -64,7 +64,7 @@ def posts_create():
     if len(post_title) < 3 or len(post_title) > 256:
         return jsonify({"error": "Post title must be 3 or more characters and less than or equal to 256 characters."}), 401
 
-    if len(post_text.stip()) < 1 or len(post_text) > 4096:
+    if len(post_text.strip()) < 1 or len(post_text) > 4096:
         return jsonify({"error": "Post text must be 1 or more characters and less than or equal to 4096 characters."}), 401
 
     post = Post(post_title, post_text, 0, 0)
