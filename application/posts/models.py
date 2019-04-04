@@ -11,6 +11,11 @@ class Post(db.Model):
 
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 
+    user_id = db.Column(db.Integer, db.ForeignKey('account.id'),
+                           nullable=False)
+
+    comments = db.relationship("Comment", backref='account', lazy=True)
+
     def __init__(self, title, text, upvotes, downvotes):
         self.title = title
         self.text = text
@@ -26,6 +31,15 @@ class Comment(db.Model):
     downvotes = db.Column(db.Integer, nullable=False)
 
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    user_id = db.Column(db.Integer, db.ForeignKey('account.id'),
+                           nullable=False)
+
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'),
+                           nullable=False)
+    
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'),
+                           nullable=True)
 
     def __init__(self, title, text):
         self.text = text

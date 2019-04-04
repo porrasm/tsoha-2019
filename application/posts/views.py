@@ -3,10 +3,12 @@ from flask import redirect, render_template, request, url_for
 from application.posts.models import Post, post_schema, posts_schema
 from flask import jsonify
 from flask_marshmallow import Marshmallow
+from flask_jwt_extended import (jwt_required)
 
+route = "/api/posts"
 
 # All posts
-@app.route("/posts", methods=["GET"])
+@app.route(f"{route}", methods=["GET"])
 def posts_index():
 
     all = Post.query.all()
@@ -20,7 +22,7 @@ def posts_index():
     return jsonify(posts)
 
 # Single pos
-@app.route("/posts/get/<post_id>/", methods=["GET"])
+@app.route(f"{route}/get/<post_id>/", methods=["GET"])
 def posts_get(post_id):
 
     post = post_schema.dump(Post.query.get(post_id)).data
@@ -29,7 +31,8 @@ def posts_get(post_id):
 
     return jsonify(post)
 
-@app.route("/posts", methods=["POST"])
+@app.route(f"{route}/create", methods=["POST"])
+@jwt_required
 def posts_create(): 
     content = request.get_json(silent=True)
 
@@ -42,17 +45,19 @@ def posts_create():
 
     return render_template("index.html")
 
-@app.route("/posts/like/<post_id>/", methods=["POST"])
-def posts_like(post_id):
+@app.route(f"{route}/comment/<post_id>/<comment_id>/", methods=["POST"])
+@jwt_required
+def posts_like(post_id, comment_id):
 
     post = Post.query.get(post_id)
-    post.upvotes += 1
+    post.downvotes += 1
     db.session().commit()
   
     return jsonify(True)
-
-@app.route("/posts/dislike/<post_id>/", methods=["POST"])
-def posts_dislike(post_id):
+    
+@app.route(f"{route}/comment/<post_id>/<comment_id>/", methods=["POST"])
+@jwt_required
+def posts_dislike(post_id, comment_id):
 
     post = Post.query.get(post_id)
     post.downvotes += 1

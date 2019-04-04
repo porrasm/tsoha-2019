@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = "/posts"
+const baseUrl = "/api/posts"
+
+let user
 
 const getAll = async () => {
     const response = await axios.get(baseUrl)
@@ -13,8 +15,13 @@ const getOne = async (id) => {
 }
 
 const create = async (newObject) => {
-    const response = await axios.post(baseUrl, newObject)
+
+    const response = await axios.post(baseUrl + "/create", newObject)
     return response.data
+}
+
+const setUser = (newUser) => {
+    user = newUser
 }
 
 export default { getAll, getOne, create }
