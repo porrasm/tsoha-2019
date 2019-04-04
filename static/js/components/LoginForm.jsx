@@ -40,13 +40,17 @@ class LoginForm extends React.Component {
 
                 console.log('Login was succesful', res)
 
-                this.props.setCurrentUser(res.user)
-                localStorage.setItem("user", JSON.stringify(res.user))
+                const user = res.user
+                user.access_token = res.access_token
+                user.refresh_token = res.refresh_token
+
+                this.props.setCurrentUser(user)
+                localStorage.setItem("user", JSON.stringify(user))
 
                 this.setState({
                     username: '',
                     password: '',
-                    message: `You are logged in as ${res.user.username}`
+                    message: `You are logged in as ${user.username}`
                 })
             }
         })
@@ -116,6 +120,108 @@ class LoginForm extends React.Component {
     }
 }
 
+class RegisterForm extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            username: '',
+            password: '',
+            message: null
+        }
+    }
+
+    register(event) {
+        event.preventDefault()
+
+        const user = {
+            username: this.state.username,
+            password: this.state.password
+        }
+
+        const request = users.register(user)
+
+        request.then(res => {
+
+            console.log("res status: ", res.status)
+            
+            if (!res.user) {
+
+                console.log('Login failed', res)
+
+                this.setState({
+                    message: 'Username is already taken'
+                })
+            } else {
+
+                console.log('Register was succesful', res)
+
+                const user = res.user
+                user.access_token = res.access_token
+                user.refresh_token = res.refresh_token
+
+                this.props.setCurrentUser(user)
+                localStorage.setItem("user", JSON.stringify(user))
+
+                this.setState({
+                    username: '',
+                    password: '',
+                    message: `Registered as ${user.username}`
+                })
+            }
+        })
+    }
+
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value })
+    }
+
+    render() {
+
+        const message = this.state.message ? (<p>{this.state.message}</p>) : null
+        const user = this.props.userContainer.current_user
+
+        if (user) {
+            return (
+                <div>
+                    <Message>
+                        <p>You are logged in as {user.username}</p>
+                    </Message>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h2>Register</h2>
+
+                    {message}
+
+                    <form onSubmit={this.register.bind(this)}>
+                        <div>
+                            Username
+                        <input
+                                value={this.state.username}
+                                name='username'
+                                onChange={this.handleChange.bind(this)}
+                            />
+                        </div>
+                        <div>
+                            Password
+                        <input
+                                type='password'
+                                value={this.state.password}
+                                name='password'
+                                onChange={this.handleChange.bind(this)}
+                            />
+                        </div>
+
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            )
+        }
+    }
+}
+
 
 const mapStateToProps = (state) => {
     return {
@@ -130,5 +236,12 @@ const ConnectedLoginForm = connect(
     mapStateToProps,
     mapDispatchToProps
 )(LoginForm)
+const ConnectedRegisterForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RegisterForm)
 
-export default ConnectedLoginForm
+export default {
+    LoginForm: ConnectedLoginForm,
+    RegisterForm: ConnectedRegisterForm
+}

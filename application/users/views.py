@@ -17,6 +17,30 @@ def user_login():
         # SEND HTTP CODE 401
         return jsonify(None)
 
+    return get_authenticated_user(database_user)
+
+@app.route("/api/register", methods=["POST"])
+def user_register(): 
+    content = request.get_json(silent=True)
+
+    print("\nTrying to create user: ", content["username"])
+  
+    database_user = User.query.filter_by(username=content["username"]).first()
+
+    if database_user:
+        return jsonify({"error": "This username has been taken"}), 409
+
+    new_user = User(content["username"], content["password"])
+
+    print("Creating user: ", new_user)
+
+    db.session().add(new_user)
+    db.session().commit()
+
+    return get_authenticated_user(new_user), 201
+
+def get_authenticated_user(database_user):
+    
     print("Dumping data to user")
     user = user_schema.dump(database_user).data
     del user["password"]

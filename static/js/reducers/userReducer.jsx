@@ -1,4 +1,5 @@
 import users from '../services/users'
+import posts from '../services/posts'
 
 const userReducer = (state = { current_user: null }, action) => {
 
@@ -17,6 +18,8 @@ const userReducer = (state = { current_user: null }, action) => {
 export const setCurrentUser = (user) => {
 
     console.log('Setting current user: ', user)
+
+    posts.setUser(user)
 
     return async (dispatch) => {
         dispatch({

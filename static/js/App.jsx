@@ -44,7 +44,8 @@ class App extends React.Component {
                         <Route exact path="/" render={() => <PostList />} />
                         <Route exact path="/posts/get/:id" component={Post} />
                         <Route exact path="/posts/new" render={() => <PostForm />} />
-                        <Route exact path="/login" render={() => <LoginForm />} />
+                        <Route exact path="/login" render={() => <LoginForm.LoginForm />} />
+                        <Route exact path="/register" render={() => <LoginForm.RegisterForm />} />
                     </div>
                 </Router>
 

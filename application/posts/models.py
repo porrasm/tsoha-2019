@@ -13,8 +13,9 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('account.id'),
                            nullable=False)
-
-    comments = db.relationship("Comment", backref='account', lazy=True)
+    
+    comments = db.relationship("Comment", backref='post', lazy=True)
+    
 
     def __init__(self, title, text, upvotes, downvotes):
         self.title = title

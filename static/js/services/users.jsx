@@ -8,7 +8,7 @@ const getAll = async () => {
 
 const getOne = async (id) => {
     console.log('GET post: ', id)
-    const response = await axios.get(baseUrl + "/get/" + id)
+    const response = await axios.get(baseUrl + "get/" + id)
     return response.data
 }
 
@@ -21,4 +21,13 @@ const login = async (user) => {
     }
 }
 
-export default { getAll, getOne, login }
+const register = async (user) => {
+    try {
+        const response = await axios.post(baseUrl + "register", user)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+
+export default { getAll, getOne, login, register }

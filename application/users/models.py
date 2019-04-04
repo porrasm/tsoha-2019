@@ -17,6 +17,9 @@ class User(db.Model):
     def __init__(self, username, password):
         self.username = username
         self.password = password
+    
+    def get_id(self):
+        return self.id
 
 def authenticate(username, password):
     user = User.query.filter_by(username=username).first()

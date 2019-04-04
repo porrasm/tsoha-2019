@@ -28,6 +28,10 @@ class Menus extends React.Component {
                 <Link to="/login">Login</Link>
             </Menu.Item>)
 
+        const registerButton = user ? null :
+            (<Menu.Item link>
+                <Link to="/register">Register</Link>
+            </Menu.Item>)
 
         return (
             <div>
@@ -42,10 +46,7 @@ class Menus extends React.Component {
                     </Menu.Item>
 
                     {userButton}
-
-                    <Menu.Item link>
-                        <Link to="/login">Register</Link>
-                    </Menu.Item>
+                    {registerButton}
                 </Menu>
             </div>
         )

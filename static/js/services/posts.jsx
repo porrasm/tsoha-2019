@@ -16,12 +16,26 @@ const getOne = async (id) => {
 
 const create = async (newObject) => {
 
-    const response = await axios.post(baseUrl + "/create", newObject)
+    const config = {
+        headers: { 'Authorization': getToken() }
+    }
+
+    const response = await axios.post(baseUrl + "/create", newObject, config)
     return response.data
 }
 
 const setUser = (newUser) => {
     user = newUser
 }
+const getToken = () => {
 
-export default { getAll, getOne, create }
+    if (!user) {
+        return 'Bearer empty'
+    }
+
+    const token = `Bearer ${user.access_token}`
+    console.log("token: ", token)
+    return token
+}
+
+export default { getAll, getOne, create, setUser }
