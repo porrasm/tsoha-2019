@@ -1,7 +1,12 @@
 import React from "react";
 import posts from '../services/posts'
 import Comment from '../components/Comment'
+import CommentForm from '../components/CommentForm'
 import { Table, Message, Container, Divider, Header } from 'semantic-ui-react'
+
+
+import { connect } from 'react-redux'
+import { setCurrentUser } from '../reducers/userReducer'
 
 class Post extends React.Component {
     constructor(props) {
@@ -45,6 +50,8 @@ class Post extends React.Component {
 
         console.log('Post: ', this.state.post)
 
+        const user = this.props.userContainer.current_user
+
         if (!this.state.post) {
             return (
                 <div>Loading...</div>
@@ -52,6 +59,8 @@ class Post extends React.Component {
         }
 
         const comments = this.comments()
+
+        const commentForm = user ? (<CommentForm post={this.state.post}/>) : null
 
         return (
             <div>
@@ -72,6 +81,7 @@ class Post extends React.Component {
                     <Divider />
 
                     <Header as='h2'>Comments</Header>
+                    {commentForm}
                     {comments}
                 </Container>
             </div>
@@ -79,4 +89,14 @@ class Post extends React.Component {
     }
 }
 
-export default Post
+const mapStateToProps = (state) => {
+    return {
+        userContainer: state.userContainer,
+    }
+}
+
+const ConnectedPost = connect(
+    mapStateToProps
+)(Post)
+
+export default ConnectedPost

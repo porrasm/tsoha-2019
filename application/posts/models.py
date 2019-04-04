@@ -42,8 +42,11 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'),
                            nullable=True)
 
-    def __init__(self, title, text):
+    def __init__(self, text, upvotes, downvotes):
         self.text = text
+        self.upvotes = upvotes
+        self.downvotes = downvotes
+        
 
 ## Schemas
 

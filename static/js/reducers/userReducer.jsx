@@ -1,5 +1,6 @@
 import users from '../services/users'
 import posts from '../services/posts'
+import comments from '../services/comments'
 
 const userReducer = (state = { current_user: null }, action) => {
 
@@ -20,6 +21,7 @@ export const setCurrentUser = (user) => {
     console.log('Setting current user: ', user)
 
     posts.setUser(user)
+    comments.setUser(user)
 
     return async (dispatch) => {
         dispatch({

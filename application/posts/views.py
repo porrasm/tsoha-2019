@@ -66,9 +66,9 @@ def posts_create():
 
     return render_template("index.html")
 
-@app.route(f"{route}/comment/<post_id>/<comment_id>/", methods=["POST"])
+@app.route(f"{route}/like/<post_id>", methods=["POST"])
 @jwt_required
-def posts_like(post_id, comment_id):
+def posts_like(post_id):
 
     post = Post.query.get(post_id)
     post.downvotes += 1
@@ -76,12 +76,55 @@ def posts_like(post_id, comment_id):
   
     return jsonify(True)
 
-@app.route(f"{route}/comment/<post_id>/<comment_id>/", methods=["POST"])
+@app.route(f"{route}/dislike/<post_id>", methods=["POST"])
 @jwt_required
 def posts_dislike(post_id, comment_id):
 
-    post = Post.query.get(post_id)
-    post.downvotes += 1
+    content = request.get_json(silent=True)
+    current_user = get_jwt_identity()
+
+    if not current_user:
+        return jsonify({"error": "Error creating comment, user token was invalid"}), 401
+
+    print("content: ", content)
+
+    comment = Comment("test")
+
+    comment.user_id = current_user.id
+    comment.post_id = post_id
+
+    if comment_id != -1:
+        comment.comment_id = comment_id
+
+    db.session().add(comment)
     db.session().commit()
   
-    return jsonify(True)
+    return jsonify({"message": "Succesfully created comment."}), 201
+
+@app.route(f"{route}/comment/<post_id>/<comment_id>", methods=["POST"])
+# @app.route("/api/posts/comment/<post_id>/<comment_id>/", methods=["POST"])
+@jwt_required
+def create_comment(post_id, comment_id):
+
+    print("\nTrying to create comment...")
+
+    content = request.get_json(silent=True)
+    current_user = get_jwt_identity()
+
+    if not current_user:
+        return jsonify({"error": "Error creating comment, user token was invalid"}), 401
+
+    print("content: ", content)
+
+    comment = Comment(content["comment"], 0, 0)
+
+    comment.user_id = int(current_user["id"])
+    comment.post_id = int(post_id)
+
+    if int(comment_id) != -1:
+        comment.comment_id = comment_id
+
+    db.session().add(comment)
+    db.session().commit()
+  
+    return jsonify(comment_schema.dump(comment).data), 201
