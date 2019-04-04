@@ -55,7 +55,19 @@ def posts_create():
     user_id = current_user["id"]
     print("Current user id: ", user_id)
 
-    post = Post(content["title"], content["text"], 0, 0)
+    post_title = content["title"].strip()
+    post_text = content["text"]
+
+    if not post_title or not post_text:
+        return jsonify({"error": "Post title and text must not be empty."}), 401
+
+    if len(post_title) < 3 or len(post_title) > 256:
+        return jsonify({"error": "Post title must be 3 or more characters and less than or equal to 256 characters."}), 401
+
+    if len(post_text.stip()) < 1 or len(post_text) > 4096:
+        return jsonify({"error": "Post text must be 1 or more characters and less than or equal to 4096 characters."}), 401
+
+    post = Post(post_title, post_text, 0, 0)
 
     post.user_id = user_id
 
@@ -116,7 +128,15 @@ def create_comment(post_id, comment_id):
 
     print("content: ", content)
 
-    comment = Comment(content["comment"], 0, 0)
+    comment_text = content["comment"]
+
+    if not comment_text:
+        return jsonify({"error": "Comment text must not be empty."}), 400
+
+    if len(comment_text) == 0 or len(comment_text) > 2048:
+        return jsonify({"error": "Comment text must be between 1-2048 characters"}), 400
+
+    comment = Comment(comment_text, 0, 0)
 
     comment.user_id = int(current_user["id"])
     comment.post_id = int(post_id)

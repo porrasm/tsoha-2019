@@ -3,8 +3,8 @@ from application import db, ma
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
-    title = db.Column(db.String(144), nullable=False)
-    text = db.Column(db.String(2048), nullable=False)
+    title = db.Column(db.String(256), nullable=False)
+    text = db.Column(db.String(4096), nullable=False)
 
     upvotes = db.Column(db.Integer, nullable=False)
     downvotes = db.Column(db.Integer, nullable=False)

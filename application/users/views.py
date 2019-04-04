@@ -30,7 +30,22 @@ def user_register():
     if database_user:
         return jsonify({"error": "This username has been taken"}), 409
 
-    new_user = User(content["username"], content["password"])
+    user_username = content["username"]
+    user_password = content["password"]
+
+    if not user_username or not user_password:
+        return jsonify({"error": "Username and password must not be empty."}), 401
+
+    if " " in user_username or not user_username.isalnum():
+        return jsonify({"error": "Username must be alphanumeric without whitespace."}), 401
+    
+    if len(user_username) < 5 or len(user_username) > 32:
+        return jsonify({"error": "Username must be between 5 and 32 characters"}), 401
+
+    if len(user_password) < 5 or len(user_password) > 32:
+        return jsonify({"error": "Password must be between 5 and 32 characters"}), 401
+
+    new_user = User(user_username, user_password)
 
     print("Creating user: ", new_user)
 
