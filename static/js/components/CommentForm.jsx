@@ -26,14 +26,15 @@ class CommentForm extends React.Component {
 
         request.then(res => {
 
-            if (res.message) {
+            if (res.text) {
 
                 console.log('Comment created successfully')
 
                 this.setState({message: 'Created comment', comment: null})
+                this.props.appendComment(res)
             } else {
 
-                console.log('Commenting failed')
+                console.log('Commenting failed: ', res)
                 this.setState({message: 'Failed to create comment'})        
             }
             this.removeMessage()

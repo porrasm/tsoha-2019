@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import posts from '../services/posts'
 
-import { Table, Message } from 'semantic-ui-react'
+import { Table, Message, Divider } from 'semantic-ui-react'
 
 class PostList extends React.Component {
 
@@ -62,7 +62,10 @@ const singlePost = (post) => {
         <Table.Row key={post.id}>
             <Table.Cell>
                 <Message>
-                    <Message.Header><Link to={postUrl}>{post.title}</Link></Message.Header>                  
+                    <Message.Header><Link to={postUrl}>{post.title}</Link></Message.Header>
+                    <div>Likes {post.upvotes}</div>           
+                    <div>Dislikes {post.downvotes}</div>    
+                    <Divider />   
                     <p>{post.text}</p>                        
                 </Message>
             </Table.Cell>

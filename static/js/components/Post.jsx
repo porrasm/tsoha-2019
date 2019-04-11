@@ -75,6 +75,11 @@ class Post extends React.Component {
             this.setState({post})
         })
     }
+    appendComment(comment) {
+        const post = this.state.post
+        post.comments = post.comments.concat(comment)
+        this.setState({post})
+    }
 
     render() {
 
@@ -90,7 +95,7 @@ class Post extends React.Component {
 
         const comments = this.comments()
 
-        const commentForm = user ? (<CommentForm post={this.state.post} />) : null
+        const commentForm = user ? (<CommentForm post={this.state.post} appendComment={this.appendComment.bind(this)}/>) : null
 
         return (
             <div>
