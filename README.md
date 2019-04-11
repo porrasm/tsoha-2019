@@ -18,6 +18,8 @@ Test login password: 12345
 
 [Requirement specification](https://github.com/porrasm/tsoha-2019/blob/master/documentation/requirement_specification.md)
 
+[Manual](https://github.com/porrasm/tsoha-2019/blob/master/documentation/manual.md)
+
 [Database structure](https://github.com/porrasm/tsoha-2019/blob/master/documentation/database.md)
 
 ## About
