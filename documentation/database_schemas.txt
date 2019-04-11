@@ -1,0 +1,43 @@
+// https://dbdiagram.io/d
+
+TABLE account {
+        id INTEGER [pk]
+        date_created DATETIME
+        date_modified DATETIME,
+        username VARCHAR(32)
+        password VARCHAR(32)
+        is_admin BOOLEAN
+}
+TABLE post {
+        id INTEGER [pk]
+        title VARCHAR(256)
+        text VARCHAR(4096)
+        upvotes INTEGER
+        downvotes INTEGER
+        date_created DATETIME
+        user_id INTEGER [ref: > account.id]
+}
+TABLE comment {
+        id INTEGER
+        text VARCHAR(2048)
+        upvotes INTEGER
+        downvotes INTEGER
+        date_created DATETIME
+        user_id INTEGER [ref: > account.id]
+        post_id INTEGER [ref: > post.id]
+        comment_id INTEGER [ref: > comment.id]
+}
+TABLE post_vote {
+        id INTEGER
+        user_id INTEGER [ref: > account.id]
+        post_id INTEGER [ref: > post.id]
+      
+        like BOOLEAN
+}
+TABLE comment_vote {
+        id INTEGER
+        comment_id INTEGER
+        user_id INTEGER [ref: > account.id]
+        like BOOLEAN
+
+}
