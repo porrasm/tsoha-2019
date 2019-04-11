@@ -63,6 +63,9 @@ def update_user(user_id):
 
     database_user = User.get_user_by_id(updated_user["id"])
 
+    if database_user.username == "admin":
+        return jsonify({"error": "Admin accounts can only be changed by the site owner."}), 409
+
     if not database_user:
         return jsonify({"error": "Could not find user. It might have been deleted from the database."}), 404 
     
@@ -104,6 +107,16 @@ def update_user(user_id):
     print("\nReturning response")
     return jsonify({"message": "Succesfully updated account", "user": authenticated_user}), 201
 
+@app.route("/api/update/<user_id>", methods=["PUT"])
+@jwt_required
+def delete_user(user_id):
+
+    identity = get_jwt_identity()
+
+
+    
+    return jsonify({"message": "Succesfully updated account", "user": authenticated_user}), 201
+
 
 def get_authenticated_user(database_user, returnAsObject):
     
@@ -127,6 +140,10 @@ def get_authenticated_user(database_user, returnAsObject):
     return jsonify(response)
 
 def get_username_error(username):
+
+    if username == "admin":
+        return "This username has been taken"
+
     if not username:
         return "Username must not be empty."
 

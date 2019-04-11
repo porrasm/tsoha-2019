@@ -27,4 +27,8 @@ from application.posts import views
 from application.users import models
 from application.users import views
   
+# Database init
 db.create_all()
+
+from application.users.models import User
+User.create_admin()
