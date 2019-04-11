@@ -1,8 +1,8 @@
 import React from "react";
 import posts from '../services/posts'
-import Comment from '../components/Comment'
+import CommentContainer from '../components/Comment'
 import CommentForm from '../components/CommentForm'
-import { Table, Message, Container, Divider, Header } from 'semantic-ui-react'
+import { Table, Message, Container, Divider, Header, Comment } from 'semantic-ui-react'
 
 
 import { connect } from 'react-redux'
@@ -41,9 +41,39 @@ class Post extends React.Component {
             return null
         }
 
-        return comments.map(comment => (
-            <Comment comment={comment} key={comment.id}/>
+        const commentList = comments.map(comment => (
+            <CommentContainer comment={comment} key={comment.id} />
         ))
+
+        return (<Comment.Group>
+            {commentList}
+        </Comment.Group>)
+    }
+
+    like(event) {
+        event.preventDefault()
+
+        const req = posts.like(this.state.post.id)
+        req.then(res => {
+            console.log('Like: ', res)
+            const post = this.state.post
+            post.upvotes += res.value
+            post.downvotes += res.opposite_value
+            this.setState({post})
+        })
+        
+    }
+    dislike(event) {
+        event.preventDefault()
+
+        const req = posts.dislike(this.state.post.id)
+        req.then(res => {
+            console.log('Dislike: ', res)
+            const post = this.state.post
+            post.downvotes += res.value
+            post.upvotes += res.opposite_value
+            this.setState({post})
+        })
     }
 
     render() {
@@ -60,7 +90,7 @@ class Post extends React.Component {
 
         const comments = this.comments()
 
-        const commentForm = user ? (<CommentForm post={this.state.post}/>) : null
+        const commentForm = user ? (<CommentForm post={this.state.post} />) : null
 
         return (
             <div>
@@ -77,9 +107,16 @@ class Post extends React.Component {
                         {this.state.post.text}
                     </p>
                 </Container>
+
                 <Container textAlign='left' >
                     <Divider />
 
+                    <p>Upvotes: {this.state.post.upvotes}</p>
+                    <p>Downvotes: {this.state.post.downvotes}</p>
+                    <div>
+                        <button onClick={this.like.bind(this)}>Like</button>
+                        <button onClick={this.dislike.bind(this)}>Dislike</button>
+                    </div>
                     <Header as='h2'>Comments</Header>
                     {commentForm}
                     {comments}

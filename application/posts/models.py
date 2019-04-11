@@ -46,7 +46,40 @@ class Comment(db.Model):
         self.text = text
         self.upvotes = upvotes
         self.downvotes = downvotes
-        
+
+class PostVote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'),
+                           nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('account.id'),
+                           nullable=False)
+
+    like = db.Column(db.Boolean, nullable=False)
+
+    def __init__(self, post_id, user_id, like):
+        self.post_id = post_id
+        self.user_id = user_id
+        self.like = like
+    
+    @staticmethod
+    def get_vote(post_id, user_id, like):
+        return PostVote.query.filter_by(post_id=post_id, user_id=user_id, like=like).first()
+
+class CommentVote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'),
+                           nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('account.id'),
+                           nullable=False)
+
+    like = db.Column(db.Boolean, nullable=False)
+
+    def __init__(self, comment_id, user_id, like):
+        self.comment_id = comment_id
+        self.user_id = user_id
+        self.like = like
 
 ## Schemas
 

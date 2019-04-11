@@ -15,17 +15,17 @@ const getOne = async (id) => {
 }
 
 const create = async (newObject) => {
-
-    const config = {
-        headers: { 'Authorization': getToken() }
-    }
-
-    const response = await axios.post(baseUrl + "/create", newObject, config)
+    const response = await axios.post(baseUrl + "/create", newObject, config())
     return response.data
 }
 
 const setUser = (newUser) => {
     user = newUser
+}
+const config = () => {
+    return {
+        headers: { 'Authorization': getToken() }
+    }
 }
 const getToken = () => {
 
@@ -38,4 +38,21 @@ const getToken = () => {
     return token
 }
 
-export default { getAll, getOne, create, setUser }
+const like = async (id) => {
+    try {
+        const response = await axios.get(baseUrl + "/like/" + id, config())
+        return response.data
+    } catch (error) {
+        console.log('Error liking post: ', error)
+    }
+}
+const dislike = async (id) => {
+    try {
+        const response = await axios.get(baseUrl + "/dislike/" + id, config())
+        return response.data
+    } catch (error) {
+        console.log('Error disliking post: ', error)
+    }
+}
+
+export default { getAll, getOne, create, setUser, like, dislike }

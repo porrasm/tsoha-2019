@@ -1,8 +1,8 @@
 import React from "react";
 import posts from '../services/posts'
-import { Table, Message, Container, Divider } from 'semantic-ui-react'
+import { Table, Message, Container, Divider, Comment } from 'semantic-ui-react'
 
-class Comment extends React.Component {
+class CommentContainer extends React.Component {
 
     render() {
 
@@ -12,7 +12,28 @@ class Comment extends React.Component {
             return null
         }
 
-        return(
+        return (
+            <Message>
+                <Comment>
+                    <Comment.Content>
+
+                        <Comment.Author>Author</Comment.Author>
+
+                        <Comment.Metadata>
+                            <div>Likes: {this.props.comment.upvotes}</div>
+                            <div>Dislikes: {this.props.comment.downvotes}</div>
+                        </Comment.Metadata>
+
+                        <Comment.Text>
+                            {comment.text}
+                        </Comment.Text>
+                    </Comment.Content>
+
+                </Comment>
+            </Message>
+        )
+
+        return (
             <div>
                 <Message>
                     <p>{comment.text}</p>
@@ -22,4 +43,4 @@ class Comment extends React.Component {
     }
 }
 
-export default Comment
+export default CommentContainer

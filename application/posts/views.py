@@ -1,6 +1,6 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
-from application.posts.models import Post, post_schema, posts_schema, Comment, comment_schema, comments_schema
+from application.posts.models import Post, post_schema, posts_schema, Comment, comment_schema, comments_schema, PostVote
 from application.users.models import User, user_schema, users_schema
 from flask import jsonify
 from flask_marshmallow import Marshmallow
@@ -22,7 +22,7 @@ def posts_index():
 
     return jsonify(posts)
 
-# Single pos
+# Single post
 @app.route(f"{route}/get/<post_id>/", methods=["GET"])
 def posts_get(post_id):
 
@@ -76,45 +76,66 @@ def posts_create():
     db.session().add(post)
     db.session().commit()
 
+    post_vote(post, current_user, True)
+
     return render_template("index.html")
 
-@app.route(f"{route}/like/<post_id>", methods=["POST"])
+# Post voting
+@app.route(f"{route}/like/<post_id>", methods=["GET"])
 @jwt_required
 def posts_like(post_id):
 
+    print("\nLiking post: ", post_id)
+
     post = Post.query.get(post_id)
-    post.downvotes += 1
-    db.session().commit()
-  
-    return jsonify(True)
-
-@app.route(f"{route}/dislike/<post_id>", methods=["POST"])
-@jwt_required
-def posts_dislike(post_id, comment_id):
-
-    content = request.get_json(silent=True)
     current_user = get_jwt_identity()
 
-    if not current_user:
-        return jsonify({"error": "Error creating comment, user token was invalid"}), 401
+    return post_vote(post, current_user, True)
 
-    print("content: ", content)
+@app.route(f"{route}/dislike/<post_id>", methods=["GET"])
+@jwt_required
+def posts_dislike(post_id):
 
-    comment = Comment("test")
+    post = Post.query.get(post_id)
+    current_user = get_jwt_identity()
 
-    comment.user_id = current_user.id
-    comment.post_id = post_id
+    return post_vote(post, current_user, False)
 
-    if comment_id != -1:
-        comment.comment_id = comment_id
+def post_vote(post, user, like):
 
-    db.session().add(comment)
+    print("Voting post: ", post.title)
+    
+    previous_vote = PostVote.get_vote(post.id, user["id"], like)
+    opposite_vote = PostVote.get_vote(post.id, user["id"], not like)
+    new_vote = PostVote(post.id, user["id"], like)
+
+    amount = 0
+    alternate_amount = 0
+
+    if previous_vote:
+        amount = -1
+        db.session().delete(previous_vote)
+    else:
+        amount = 1
+        db.session().add(new_vote)
+
+    if opposite_vote:
+        alternate_amount = -1
+        db.session().delete(opposite_vote)
+
+    if like:
+        post.upvotes += amount
+        post.downvotes += alternate_amount
+    else:
+        post.downvotes += amount
+        post.upvotes += alternate_amount
+
     db.session().commit()
   
-    return jsonify({"message": "Succesfully created comment."}), 201
+    return jsonify({"like": like, "value": amount, "opposite_value": alternate_amount}), 200
 
+# Comment creating
 @app.route(f"{route}/comment/<post_id>/<comment_id>", methods=["POST"])
-# @app.route("/api/posts/comment/<post_id>/<comment_id>/", methods=["POST"])
 @jwt_required
 def create_comment(post_id, comment_id):
 
