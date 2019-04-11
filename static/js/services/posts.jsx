@@ -10,7 +10,7 @@ const getAll = async () => {
 
 const getOne = async (id) => {
     console.log('GET post: ', id)
-    const response = await axios.get(baseUrl + "/get/" + id)
+    const response = await axios.get(baseUrl + "/" + id)
     return response.data
 }
 
@@ -54,5 +54,14 @@ const dislike = async (id) => {
         console.log('Error disliking post: ', error)
     }
 }
+const deletePost = async (id) => {
+    try {   
+        const response = await axios.delete(baseUrl + "/" + id, config())
+        return response.data
+    } catch(error) {
+        console.log('Error deleting post')
+        return false
+    }
+}
 
-export default { getAll, getOne, create, setUser, like, dislike }
+export default { getAll, getOne, create, setUser, like, dislike, deletePost }

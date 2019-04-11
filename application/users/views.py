@@ -131,6 +131,9 @@ def delete_user():
     for post in posts:
         stmt = text(f"DELETE FROM Comment WHERE Comment.post_id = {post.id}")
         response = db.engine.execute(stmt)
+
+        stmt = text(f"DELETE FROM PostVote WHERE PostVote.post_id = {post.id}")
+        response = db.engine.execute(stmt)
         
     # Delete posts by user
     stmt = text(f"DELETE FROM Post WHERE Post.user_id = {id}")
@@ -140,6 +143,9 @@ def delete_user():
     stmt = text(f"DELETE FROM Account WHERE Account.id = {id}")
     response = db.engine.execute(stmt)
     
+    # Delete all votes by users and to user posts
+    # Not implemented
+
     return jsonify({"message": "Succesfully deleted account"}), 200
 
 

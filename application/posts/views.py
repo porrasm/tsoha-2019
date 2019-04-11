@@ -5,6 +5,7 @@ from application.users.models import User, user_schema, users_schema
 from flask import jsonify
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
+from sqlalchemy.sql import text
 
 route = "/api/posts"
 
@@ -23,7 +24,7 @@ def posts_index():
     return jsonify(posts)
 
 # Single post
-@app.route(f"{route}/get/<post_id>/", methods=["GET"])
+@app.route(f"{route}/<post_id>/", methods=["GET"])
 def posts_get(post_id):
 
     post = Post.query.get(post_id)
@@ -80,6 +81,33 @@ def posts_create():
 
     return render_template("index.html")
 
+# Post deletion
+@app.route(f"{route}/<post_id>", methods=["DELETE"])
+@jwt_required
+def posts_delete(post_id):
+
+    user = get_jwt_identity()
+    database_user = User.query.get(user["id"])
+    post = Post.query.get(post_id)
+
+    if post.user_id != database_user.id and not database_user.is_admin:
+        return jsonify({"error": "You do not have the permission to delete this post."}), 401
+
+    stmt = text(f"DELETE FROM Comment WHERE Comment.post_id = {post.id}")
+    response = db.engine.execute(stmt)
+
+    stmt = text(f"DELETE FROM Post_Vote WHERE Post_Vote.post_id = {post.id}")
+    response = db.engine.execute(stmt)
+
+    stmt = text(f"DELETE FROM Post WHERE Post.id = {post.id}")
+    response = db.engine.execute(stmt)
+
+    # Comment vote deletion
+
+    return jsonify({"message": "Successfully deleted post"})
+
+
+
 # Post voting
 @app.route(f"{route}/like/<post_id>", methods=["GET"])
 @jwt_required
@@ -91,6 +119,8 @@ def posts_like(post_id):
     current_user = get_jwt_identity()
 
     return post_vote(post, current_user, True)
+
+
 
 @app.route(f"{route}/dislike/<post_id>", methods=["GET"])
 @jwt_required

@@ -3,7 +3,7 @@ import posts from '../services/posts'
 import CommentContainer from '../components/Comment'
 import CommentForm from '../components/CommentForm'
 import { Table, Message, Container, Divider, Header, Comment } from 'semantic-ui-react'
-
+import { Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from '../reducers/userReducer'
@@ -18,7 +18,8 @@ class Post extends React.Component {
 
         this.state = {
             id: id,
-            post: null
+            post: null,
+            deleted: false
         }
     }
 
@@ -27,6 +28,7 @@ class Post extends React.Component {
         const request = posts.getOne(this.state.id)
 
         request.then(response => {
+            console.log("get post response: ", response)
             this.setState({ post: response })
         })
     }
@@ -82,9 +84,25 @@ class Post extends React.Component {
     }
     deletePost() {
 
+        if (!window.confirm("Are you sure you wish to delete this post?")) {
+            return
+        }
+
+        const req = posts.deletePost(this.state.post.id)
+        req.then(res => {
+            if (res) {
+                console.log('Deleted post')
+                this.setState({deleted: true})
+            }
+        })
     }
 
     render() {
+
+        if (this.state.deleted) {
+            console.log('Redirecting to home')
+            return <Redirect to='/' />
+        }
 
         console.log('Post: ', this.state.post)
 
