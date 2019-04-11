@@ -51,6 +51,20 @@ const register = async (user) => {
     }
 }
 
+const deleteAccount = async (user) => {
+
+    const config = {
+        headers: { 'Authorization': getToken(user) }
+    }
+
+    try {
+        const response = await axios.delete(baseUrl + "account", config)
+        return true
+    } catch (error) {
+        return false
+    }
+}
+
 const getToken = (user) => {
 
     if (!user) {
@@ -62,4 +76,4 @@ const getToken = (user) => {
     return token
 }
 
-export default { getAll, getOne, update, login, register }
+export default { getAll, getOne, update, login, register, deleteAccount }

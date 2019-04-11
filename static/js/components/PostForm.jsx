@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import posts from '../services/posts'
 import { Form, TextArea, Button } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
 
 class PostForm extends React.Component {
     constructor(props) {
@@ -38,6 +39,11 @@ class PostForm extends React.Component {
     }
 
     render() {
+
+        if (!this.props.user) {
+            console.log("Redirecting to home")
+            return <Redirect to='/login' />
+        }
 
         return (
             <div>

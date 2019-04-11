@@ -1,10 +1,12 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
 from application.users.models import User, authenticate, user_schema, users_schema
+from application.posts.models import Post
 from flask import jsonify
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
+from sqlalchemy.sql import text
 
 @app.route("/api/login", methods=["POST"])
 def user_login(): 
@@ -107,15 +109,38 @@ def update_user(user_id):
     print("\nReturning response")
     return jsonify({"message": "Succesfully updated account", "user": authenticated_user}), 201
 
-@app.route("/api/update/<user_id>", methods=["PUT"])
+@app.route("/api/account", methods=["DELETE"])
 @jwt_required
-def delete_user(user_id):
+def delete_user():
 
     identity = get_jwt_identity()
 
+    if identity["username"] == "admin":
+        return jsonify({"error": "Admin accounts cannot be deleted"}), 401
+
+    id = identity["id"]
+
+    # Delete comments by user
+    stmt = text(f"DELETE FROM Comment WHERE Comment.user_id = {id}")
+    response = db.engine.execute(stmt)
 
     
-    return jsonify({"message": "Succesfully updated account", "user": authenticated_user}), 201
+    # Delete comments in posts by user
+    posts = Post.query.filter_by(user_id=id)
+
+    for post in posts:
+        stmt = text(f"DELETE FROM Comment WHERE Comment.post_id = {post.id}")
+        response = db.engine.execute(stmt)
+        
+    # Delete posts by user
+    stmt = text(f"DELETE FROM Post WHERE Post.user_id = {id}")
+    response = db.engine.execute(stmt)
+
+    # Delete user
+    stmt = text(f"DELETE FROM Account WHERE Account.id = {id}")
+    response = db.engine.execute(stmt)
+    
+    return jsonify({"message": "Succesfully deleted account"}), 200
 
 
 def get_authenticated_user(database_user, returnAsObject):

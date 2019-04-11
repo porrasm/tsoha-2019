@@ -4,6 +4,7 @@ import Comment from '../components/Comment'
 import CommentForm from '../components/CommentForm'
 import { Table, Message, Container, Divider, Header } from 'semantic-ui-react'
 import users from '../services/users'
+import { Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from '../reducers/userReducer'
@@ -19,6 +20,7 @@ class AccountPage extends React.Component {
         }
     }
 
+
     updateAccount(newUser) {
 
         console.log('updating account: ', newUser)
@@ -27,7 +29,7 @@ class AccountPage extends React.Component {
         response.then(res => {
             if (res.user) {
                 console.log('successs: ', res)
-                
+
                 const user = res.user.user
                 user.access_token = res.user.access_token
                 user.refresh_token = res.user.refresh_token
@@ -39,16 +41,44 @@ class AccountPage extends React.Component {
             }
 
             if (res.message) {
-                this.setState({message: res.message})
+                this.setState({ message: res.message })
             } else if (res.error) {
-                this.setState({message: res.error})
+                this.setState({ message: res.error })
+            }
+        })
+    }
+
+    deleteAccount(event) {
+        event.preventDefault()
+
+        if (!window.confirm("Are you sure you wish to delete your account?")) {
+            return
+        }
+
+        const req = users.deleteAccount(this.props.userContainer.current_user)
+        req.then(res => {
+            if (res) {
+                localStorage.removeItem("user")
+                this.props.setCurrentUser()
+                window.location.reload()
+            } else {
+                this.setState({ message: "Failed to delete account" })
             }
         })
     }
 
     render() {
+
+        if (!this.props.userContainer.current_user) {
+            console.log("Redirecting to home")
+            return <Redirect to='/' />
+        }
+
         return (
-            <EditAccount user={this.props.userContainer.current_user} updateAccount={this.updateAccount.bind(this)} message={this.state.message} />
+            <div>
+                <EditAccount user={this.props.userContainer.current_user} updateAccount={this.updateAccount.bind(this)} message={this.state.message} />
+                <button onClick={this.deleteAccount.bind(this)}>Delete account</button>
+            </div>
         )
     }
 }
@@ -70,7 +100,7 @@ class EditAccount extends React.Component {
         this.setState({ [event.target.name]: event.target.value })
     }
 
-    submit(event) {      
+    submit(event) {
         event.preventDefault()
 
         const userClone = this.props.user
@@ -92,6 +122,7 @@ class EditAccount extends React.Component {
 
         this.props.updateAccount(userClone)
     }
+
 
     render() {
 

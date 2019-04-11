@@ -1,5 +1,6 @@
 from application import db, ma
 from werkzeug.security import safe_str_cmp
+from application.posts.models import Post, Comment
 
 # Models
 class User(db.Model):
@@ -27,6 +28,9 @@ class User(db.Model):
     def password_equals(self, other_password):
         return safe_str_cmp(self.password.encode('utf-8'), other_password.encode('utf-8'))
 
+    def posts_by_user(self):
+        Post.query.filter_by()
+
     @staticmethod
     def get_user_by_username(username):
         return User.query.filter_by(username=username).first()
@@ -52,6 +56,8 @@ class User(db.Model):
         admin.is_admin = True
         db.session().add(admin)
         db.session().commit()
+
+
 
 
 def authenticate(username, password):

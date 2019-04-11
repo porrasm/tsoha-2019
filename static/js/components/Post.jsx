@@ -59,9 +59,9 @@ class Post extends React.Component {
             const post = this.state.post
             post.upvotes += res.value
             post.downvotes += res.opposite_value
-            this.setState({post})
+            this.setState({ post })
         })
-        
+
     }
     dislike(event) {
         event.preventDefault()
@@ -72,13 +72,16 @@ class Post extends React.Component {
             const post = this.state.post
             post.downvotes += res.value
             post.upvotes += res.opposite_value
-            this.setState({post})
+            this.setState({ post })
         })
     }
     appendComment(comment) {
         const post = this.state.post
         post.comments = post.comments.concat(comment)
-        this.setState({post})
+        this.setState({ post })
+    }
+    deletePost() {
+
     }
 
     render() {
@@ -95,7 +98,19 @@ class Post extends React.Component {
 
         const comments = this.comments()
 
-        const commentForm = user ? (<CommentForm post={this.state.post} appendComment={this.appendComment.bind(this)}/>) : null
+        const commentForm = user ? (<CommentForm post={this.state.post} appendComment={this.appendComment.bind(this)} />) : null
+
+        const likeButtons = user ? (<div>
+            <button onClick={this.like.bind(this)}>Like</button>
+            <button onClick={this.dislike.bind(this)}>Dislike</button>
+        </div>) : null
+
+        let deleteButton = null
+        if (user) {
+            if (user.username == "admin" || user.id == this.state.post.user.id) {
+                deleteButton = (<button onClick={this.deletePost.bind(this)}>Delete post</button>)
+            }
+        }
 
         return (
             <div>
@@ -118,10 +133,8 @@ class Post extends React.Component {
 
                     <p>Upvotes: {this.state.post.upvotes}</p>
                     <p>Downvotes: {this.state.post.downvotes}</p>
-                    <div>
-                        <button onClick={this.like.bind(this)}>Like</button>
-                        <button onClick={this.dislike.bind(this)}>Dislike</button>
-                    </div>
+                    {likeButtons}
+                    {deleteButton}
                     <Header as='h2'>Comments</Header>
                     {commentForm}
                     {comments}
