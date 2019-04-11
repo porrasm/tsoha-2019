@@ -18,8 +18,6 @@ class LoginForm extends React.Component {
     login(event) {
         event.preventDefault()
 
-        console.log('Creating post')
-
         const user = {
             username: this.state.username,
             password: this.state.password

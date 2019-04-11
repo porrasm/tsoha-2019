@@ -7,6 +7,7 @@ import PostList from './components/PostList'
 import PostForm from './components/PostForm'
 import Post from './components/Post'
 import LoginForm from "./components/LoginForm";
+import AccountPage from './components/AccountPage'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from './reducers/userReducer'
@@ -46,6 +47,7 @@ class App extends React.Component {
                         <Route exact path="/posts/new" render={() => <PostForm />} />
                         <Route exact path="/login" render={() => <LoginForm.LoginForm />} />
                         <Route exact path="/register" render={() => <LoginForm.RegisterForm />} />
+                        <Route exact path="/account" render={() => <AccountPage />} />
                     </div>
                 </Router>
 

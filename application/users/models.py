@@ -21,6 +21,17 @@ class User(db.Model):
     def get_id(self):
         return self.id
 
+    def password_equals(self, other_password):
+        return safe_str_cmp(self.password.encode('utf-8'), other_password.encode('utf-8'))
+
+    @staticmethod
+    def get_user_by_username(username):
+        return User.query.filter_by(username=username).first()
+
+    @staticmethod
+    def get_user_by_id(id):
+        return User.query.filter_by(id=id).first()
+
 def authenticate(username, password):
     user = User.query.filter_by(username=username).first()
 

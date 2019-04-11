@@ -12,6 +12,27 @@ const getOne = async (id) => {
     return response.data
 }
 
+const update = async (newUser) => {
+
+    let response
+
+    try {
+        const config = {
+            headers: { 'Authorization': getToken(newUser) }
+        }
+
+        console.log('Updating user: ', newUser)
+        response = await axios.put(`${baseUrl}update/${newUser.id}`, newUser, config)
+
+        console.log('Response: ', response)
+
+        return response.data
+    } catch (error) {
+        console.log('Failed to update user', error)
+        return error.response.data
+    }
+}
+
 const login = async (user) => {
     try {
         const response = await axios.post(baseUrl + "login", user)
@@ -30,4 +51,15 @@ const register = async (user) => {
     }
 }
 
-export default { getAll, getOne, login, register }
+const getToken = (user) => {
+
+    if (!user) {
+        return 'Bearer empty'
+    }
+
+    const token = `Bearer ${user.access_token}`
+    console.log("token: ", token)
+    return token
+}
+
+export default { getAll, getOne, update, login, register }

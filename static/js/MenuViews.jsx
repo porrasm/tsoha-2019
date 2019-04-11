@@ -20,7 +20,7 @@ class Menus extends React.Component {
 
         const user = this.props.userContainer.current_user
 
-        const userButton = user ?
+        const loginButton = user ?
             (<Menu.Item onClick={this.logout.bind(this)}>
                 Sign out
         </Menu.Item>) :
@@ -28,7 +28,11 @@ class Menus extends React.Component {
                 <Link to="/login">Login</Link>
             </Menu.Item>)
 
-        const registerButton = user ? null :
+        const userButton = user ? (
+            <Menu.Item link>
+                <Link to="/account">{user.username}</Link>
+            </Menu.Item>
+        ) :
             (<Menu.Item link>
                 <Link to="/register">Register</Link>
             </Menu.Item>)
@@ -46,7 +50,8 @@ class Menus extends React.Component {
                     </Menu.Item>
 
                     {userButton}
-                    {registerButton}
+                    {loginButton}
+                    
                 </Menu>
             </div>
         )
