@@ -9,11 +9,16 @@ class CommentContainer extends React.Component {
 
         const comment = this.props.comment
         const response = comment.response_to ? (<div>Response to: {comment.response_to}:{"\n"}</div>) : null
-        const actions = this.props.login ? (
+
+        const deleteAction = this.props.user.user_id == this.props.comment.user_id || this.props.user.username == 'admin' ? 
+        <Comment.Action onClick={() => comments.delete(comment.id)}>Delete</Comment.Action> : null
+
+        const actions = this.props.user ? (
             <Comment.Actions>
                 <Comment.Action onClick={() => comments.like(comment.id)}>Like</Comment.Action>
                 <Comment.Action onClick={() => comments.dislike(comment.id)}>Dislike</Comment.Action>
                 <Comment.Action onClick={() => this.props.setCommentResponseID({ id: comment.id, username: comment.user_username })}>Reply</Comment.Action>
+                {deleteAction}
             </Comment.Actions>) : null
 
         if (!comment) {

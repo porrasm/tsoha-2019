@@ -2,7 +2,7 @@ import React from "react";
 import posts from '../services/posts'
 import CommentContainer from '../components/Comment'
 import CommentForm from '../components/CommentForm'
-import { Table, Message, Container, Divider, Header, Comment } from 'semantic-ui-react'
+import { Table, Message, Container, Divider, Header, Comment, Button, Label } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux'
@@ -38,11 +38,10 @@ class Post extends React.Component {
 
     comments() {
 
-        const login = this.props.userContainer.current_user ? true : false
+        const user = this.props.userContainer.current_user ? this.props.userContainer.current_user : false
 
         const comments = this.mapCommentResponses(this.state.post.comments)
 
-        console.log('Login status: ', login)
         console.log('Rendering comments: ', comments)
 
         if (!comments) {
@@ -50,7 +49,7 @@ class Post extends React.Component {
         }
 
         const commentList = comments.map(comment => (
-            <CommentContainer comment={comment} key={comment.id} login={login}
+            <CommentContainer comment={comment} key={comment.id} user={user}
                 setCommentResponseID={this.setCommentResponseID.bind(this)} />
         ))
 
@@ -155,19 +154,20 @@ class Post extends React.Component {
         const commentForm = user ? (
             <CommentForm post={this.state.post}
                 appendComment={this.appendComment.bind(this)}
-                comment_response={this.state.comment_response} />) : null
-
-        const likeButtons = user ? (<div>
-            <button onClick={this.like.bind(this)}>Like</button>
-            <button onClick={this.dislike.bind(this)}>Dislike</button>
-        </div>) : null
+                comment_response={this.state.comment_response} />) : null   
 
         let deleteButton = null
         if (user) {
             if (user.username == "admin" || user.id == this.state.post.user.id) {
-                deleteButton = (<button onClick={this.deletePost.bind(this)}>Delete post</button>)
+                deleteButton = (<Label onClick={this.deletePost.bind(this)}>Delete post</Label>)
             }
         }
+
+        const buttonActions = user ? (<div>
+            <Label onClick={this.like.bind(this)}>Like</Label>
+            <Label onClick={this.dislike.bind(this)}>Dislike</Label>
+            {deleteButton}
+        </div>) : null
 
         return (
             <div>
@@ -187,8 +187,7 @@ class Post extends React.Component {
 
                     <p>Upvotes: {this.state.post.upvotes}</p>
                     <p>Downvotes: {this.state.post.downvotes}</p>
-                    {likeButtons}
-                    {deleteButton}
+                    {buttonActions}
                     <Header as='h2'>Comments</Header>
                     {commentForm}
                     {comments}

@@ -64,7 +64,7 @@ class UserInfo extends React.Component {
         const info = this.state.info
 
         if (!info) {
-            return <p>Login expired</p>
+            return <Container textAlign='center'><p>Login expired</p></Container>
         }
 
         return (

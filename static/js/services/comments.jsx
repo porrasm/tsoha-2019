@@ -55,5 +55,18 @@ const dislike = async (id) => {
         console.log('Error disliking post: ', error)
     }
 }
+const deleteFunction = async (id) => {
 
-export default { createComment, setUser, like, dislike }
+    const config = {
+        headers: { 'Authorization': getToken() }
+    }
+
+    try {
+        const response = await axios.delete(baseUrl + "/delete/" + id, config)
+        return response.data
+    } catch (error) {
+        console.log('Error disliking post: ', error)
+    }
+}
+
+export default { createComment, setUser, like, dislike, delete: deleteFunction }

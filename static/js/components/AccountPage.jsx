@@ -163,12 +163,12 @@ class EditAccount extends React.Component {
                     </div>
                     <div>
                         Old password (must not be empty)
-                    <input
-                            type='password'
-                            value={this.state.password}
-                            name='password'
-                            onChange={this.handleChange.bind(this)}
-                        />
+                            <input
+                                type='password'
+                                value={this.state.password}
+                                name='password'
+                                onChange={this.handleChange.bind(this)}
+                            />
                     </div>
 
                     <button type="submit">Submit</button>

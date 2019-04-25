@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import posts from '../services/posts'
 
-import { Table, Message, Divider } from 'semantic-ui-react'
+import { Table, Message, Divider, Container } from 'semantic-ui-react'
 
 class PostList extends React.Component {
 
@@ -45,7 +45,6 @@ const postListings = (posts) => {
     return (
         <Table>
             <Table.Body>
-
                 {posts.map(post => singlePost(post))}
 
             </Table.Body>
@@ -61,13 +60,15 @@ const singlePost = (post) => {
     return (
         <Table.Row key={post.id}>
             <Table.Cell>
-                <Message>
-                    <Message.Header><Link to={postUrl}>{post.title}</Link></Message.Header>
-                    <div>Likes {post.upvotes}</div>           
-                    <div>Dislikes {post.downvotes}</div>    
-                    <Divider />   
-                    <p>{post.text}</p>                        
-                </Message>
+               
+                    <Message>
+                        <Message.Header><Link to={postUrl}>{post.title}</Link></Message.Header>
+                        <div>Likes {post.upvotes}</div>
+                        <div>Dislikes {post.downvotes}</div>
+                        <Divider />
+                        <p>{post.text}</p>
+                    </Message>
+            
             </Table.Cell>
         </Table.Row>
     )
