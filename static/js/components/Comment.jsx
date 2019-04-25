@@ -1,12 +1,13 @@
 import React from "react";
 import posts from '../services/posts'
-import { Table, Message, Container, Divider, Comment } from 'semantic-ui-react'
+import { Table, Message, Container, Divider, Comment, Form } from 'semantic-ui-react'
 
 class CommentContainer extends React.Component {
 
     render() {
 
         const comment = this.props.comment
+        const response = comment.response_to ? (<div>Response to: {comment.response_to}</div>) : null
 
         if (!comment) {
             return null
@@ -23,11 +24,16 @@ class CommentContainer extends React.Component {
                             <div>Likes: {comment.upvotes}</div>
                             <div>Dislikes: {comment.downvotes}</div>
                             <div>Date: {comment.date_created}</div>
+                            {response}
                         </Comment.Metadata>
 
                         <Comment.Text>
                             {comment.text}
                         </Comment.Text>
+
+                        <Comment.Actions>
+                            <Comment.Action onClick={() => this.props.setCommentResponseID({id: comment.id, username: comment.user_username})}>Reply</Comment.Action>
+                        </Comment.Actions>
                     </Comment.Content>
 
                 </Comment>

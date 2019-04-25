@@ -16,13 +16,14 @@ class CommentForm extends React.Component {
         console.log('Creating comment for post')
 
         const post = this.props.post
+        const commentId = this.props.comment_response ? this.props.comment_response.id : null
 
         if (!post) {
             console.log('Something went wrong...')
             return
         }
 
-        const request = comments.createComment(this.state.comment_text, post.id)
+        const request = comments.createComment(this.state.comment_text, post.id, commentId)
 
         request.then(res => {
 
@@ -57,13 +58,15 @@ class CommentForm extends React.Component {
         console.log('Rendering comment form')
 
         const message = this.state.message ? (<p>{this.state.message}</p>) : null
-
+        const responseMessage = this.props.comment_response ? (<p>Replying to {this.props.comment_response.username}</p>) : null
 
         return (
             <div>
                 <h3>Write comment</h3>
 
                 {message}
+
+                {responseMessage}
 
                 <form onSubmit={this.comment.bind(this)}>
                     <div>

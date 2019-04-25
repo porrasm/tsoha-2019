@@ -33,16 +33,16 @@ class Post(db.Model):
                 "upvotes": row[2],
                 "downvotes": row[3],
                 "date_created": row[4],
-                "user_id": row[5],
-                "user_username": row[6],
-                #"response_id": row[7]
+                "response_id": row[5],
+                "user_id": row[6],
+                "user_username": row[7]
             }
 
             print("RETURNING COMMENT OBJECT: ", comment)
 
             return comment
 
-        stmt = text(f"""SELECT Comment.id, Comment.text, Comment.upvotes, Comment.downvotes, Comment.date_created,
+        stmt = text(f"""SELECT Comment.id, Comment.text, Comment.upvotes, Comment.downvotes, Comment.date_created, Comment.comment_id, 
         Account.id, Account.username 
         FROM Comment LEFT JOIN Account ON
         Comment.user_id = Account.id

@@ -17,6 +17,7 @@ class Post extends React.Component {
         const id = this.props.match.params.id
 
         this.state = {
+            comment_response: null,
             id: id,
             post: null,
             deleted: false
@@ -35,7 +36,7 @@ class Post extends React.Component {
 
     comments() {
 
-        const comments = this.state.post.comments
+        const comments = this.mapCommentResponses(this.state.post.comments)
 
         console.log('Rendering comments: ', comments)
 
@@ -44,12 +45,29 @@ class Post extends React.Component {
         }
 
         const commentList = comments.map(comment => (
-            <CommentContainer comment={comment} key={comment.id} />
+            <CommentContainer comment={comment} key={comment.id}
+                setCommentResponseID={this.setCommentResponseID.bind(this)} />
         ))
 
         return (<Comment.Group>
             {commentList}
         </Comment.Group>)
+    }
+    mapCommentResponses(oldComments) {
+
+        const comments = new Map()
+
+        for (let comment of oldComments) {
+            comments.set(comment.id, comment)
+        }
+
+        return oldComments.map(comment => {
+            if (comment.response_id) {
+                const responseTo = comments.get(comment.response_id).user_username
+                comment.response_to = responseTo
+            }
+            return comment
+        })
     }
 
     like(event) {
@@ -92,9 +110,22 @@ class Post extends React.Component {
         req.then(res => {
             if (res) {
                 console.log('Deleted post')
-                this.setState({deleted: true})
+                this.setState({ deleted: true })
             }
         })
+    }
+    setCommentResponseID(response) {
+
+        if (this.state.comment_response) {
+            if (this.state.comment_response.id == response.id) {
+                console.log('Resetting response: ', response)
+                this.setState({ comment_response: null })
+                return
+            }
+        }
+
+        console.log('Setting response to: ', response)
+        this.setState({ comment_response: response })
     }
 
     render() {
@@ -116,7 +147,10 @@ class Post extends React.Component {
 
         const comments = this.comments()
 
-        const commentForm = user ? (<CommentForm post={this.state.post} appendComment={this.appendComment.bind(this)} />) : null
+        const commentForm = user ? (
+            <CommentForm post={this.state.post}
+                appendComment={this.appendComment.bind(this)}
+                comment_response={this.state.comment_response} />) : null
 
         const likeButtons = user ? (<div>
             <button onClick={this.like.bind(this)}>Like</button>

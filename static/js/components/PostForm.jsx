@@ -7,6 +7,7 @@ class PostForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            response_id: null,
             title: '',
             text: ''
         }
