@@ -21,14 +21,14 @@ ma = Marshmallow(app)
 
 from application import views
 
-from application.posts import models
-from application.posts import views
+from application.posts import postModels
+from application.posts import postViews
 
-from application.users import models
-from application.users import views
+from application.users import userModels
+from application.users import userViews
   
 # Database init
 db.create_all()
 
-from application.users.models import User
+from application.users.userModels import User
 User.create_admin()

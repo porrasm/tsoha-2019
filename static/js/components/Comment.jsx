@@ -17,11 +17,12 @@ class CommentContainer extends React.Component {
                 <Comment>
                     <Comment.Content>
 
-                        <Comment.Author>Author</Comment.Author>
+                        <Comment.Author>{comment.user_username}</Comment.Author>
 
                         <Comment.Metadata>
-                            <div>Likes: {this.props.comment.upvotes}</div>
-                            <div>Dislikes: {this.props.comment.downvotes}</div>
+                            <div>Likes: {comment.upvotes}</div>
+                            <div>Dislikes: {comment.downvotes}</div>
+                            <div>Date: {comment.date_created}</div>
                         </Comment.Metadata>
 
                         <Comment.Text>

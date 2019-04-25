@@ -5,6 +5,7 @@ import CommentForm from '../components/CommentForm'
 import { Table, Message, Container, Divider, Header } from 'semantic-ui-react'
 import users from '../services/users'
 import { Redirect } from 'react-router-dom'
+import UserInfo from './UserInfo'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from '../reducers/userReducer'
@@ -69,14 +70,21 @@ class AccountPage extends React.Component {
 
     render() {
 
-        if (!this.props.userContainer.current_user) {
+        const user = this.props.userContainer.current_user
+
+        if (!user) {
             console.log("Redirecting to home")
             return <Redirect to='/' />
         }
 
         return (
             <div>
-                <EditAccount user={this.props.userContainer.current_user} updateAccount={this.updateAccount.bind(this)} message={this.state.message} />
+
+                <UserInfo user={user} />
+
+                <Divider />
+
+                <EditAccount user={user} updateAccount={this.updateAccount.bind(this)} message={this.state.message} />
                 <button onClick={this.deleteAccount.bind(this)}>Delete account</button>
             </div>
         )
