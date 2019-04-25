@@ -33,9 +33,9 @@ class App extends React.Component {
         return (
             <div>
 
-                <h1>Welcome to my React app!</h1>
+                <h1>ReadIt Forum</h1>
                 <p>
-                    This is only a prototype!
+                    Welcome to ReadIt forums! Here you can create posts and talk to people about anything and everything!
                 </p>
 
                 <Router>

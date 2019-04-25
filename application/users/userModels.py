@@ -32,13 +32,47 @@ class User(db.Model):
     def posts_by_user(self):
         Post.query.filter_by()
 
-    def user_post_like_ratio(self):
+    def post_amount(self):
+        stmt = text(f"""SELECT COUNT(*) FROM Post WHERE Post.user_id = {self.id} """)
+
+        response = db.engine.execute(stmt)
+
+        value = response.first()[0]
+
+        return value
+
+    def post_like_ratio(self):
 
         # Likes / Likes + Dislikes
         stmt = text(f"""SELECT 
         CAST((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = {self.id}) AS FLOAT) 
         / 
         CAST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = {self.id}) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = {self.id})) AS FLOAT)""")
+
+        response = db.engine.execute(stmt)
+
+        value = response.first()[0]
+
+        print("\nUser like ratio response: ", value)
+
+        return value
+
+    def comment_amount(self):
+        stmt = text(f"""SELECT COUNT(*) FROM Comment WHERE Comment.user_id = {self.id} """)
+
+        response = db.engine.execute(stmt)
+
+        value = response.first()[0]
+
+        return value
+
+    def comment_like_ratio(self):
+
+        # Likes / Likes + Dislikes
+        stmt = text(f"""SELECT 
+        CAST((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = {self.id}) AS FLOAT) 
+        / 
+        CAST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = {self.id}) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = {self.id})) AS FLOAT)""")
 
         response = db.engine.execute(stmt)
 

@@ -2,7 +2,7 @@ import React from "react";
 import posts from '../services/posts'
 import Comment from '../components/Comment'
 import CommentForm from '../components/CommentForm'
-import { Table, Message, Container, Divider, Header } from 'semantic-ui-react'
+import { Table, Message, Container, Divider, Header, Tab } from 'semantic-ui-react'
 import users from '../services/users'
 import { Redirect } from 'react-router-dom'
 
@@ -25,11 +25,40 @@ class UserInfo extends React.Component {
         const request = users.getUserInfo(this.props.user)
         request.then(response => {
             console.log('Received user info response: ', response)
-            this.setState({info: response})
+            this.setState({ info: response })
         })
     }
 
-   
+    jsonToTable(json) {
+
+        const rows = []
+
+        for (let key in json) {
+            const row = (<Table.Row>
+                <Table.Cell>{this.jsonKeyToString(key)}</Table.Cell>
+                <Table.Cell>{json[key]}</Table.Cell>
+            </Table.Row>)
+
+            rows.push(row)
+        }
+
+        return (<Table>
+            <Table.Body>
+            {rows}
+            </Table.Body>
+        </Table>)
+    }
+    jsonKeyToString(key) {
+        const words = key
+            .replace(/_/g, " ")
+            .toLowerCase()
+            .trim()
+
+        words.charAt(0).toUpperCase()
+
+        return words
+    }
+
     render() {
 
         const info = this.state.info
@@ -40,12 +69,12 @@ class UserInfo extends React.Component {
 
         return (
             <div>
-                
+
                 <Header as="h2">
                     Stats
                 </Header>
 
-                <p>Post Like Ratio: {info.post_like_ratio}</p>
+                {this.jsonToTable(info)}
             </div>
         )
     }

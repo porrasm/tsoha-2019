@@ -161,10 +161,15 @@ def get_user_info(user_id):
     if not database_user:
         return jsonify({"error": "This account is not found"}), 404
 
-    post_like_ratio = database_user.user_post_like_ratio()
+    response = {}
 
+    response["post_amount"] = database_user.post_amount()
+    response["post_like_ratio"] = database_user.post_like_ratio()
 
-    return jsonify({"post_like_ratio": post_like_ratio}), 200
+    response["comment_amount"] = database_user.comment_amount()
+    response["comment_like_ratio"] = database_user.comment_like_ratio()
+
+    return jsonify(response), 200
 
 
 def get_authenticated_user(database_user, returnAsObject):
