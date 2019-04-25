@@ -80,7 +80,7 @@ def posts_create():
 
     post_vote(post, current_user, True)
 
-    return render_template("index.html")
+    return jsonify(post_schema.dump(post).data), 201
 
 # Post deletion
 @app.route(f"{route}/<post_id>", methods=["DELETE"])

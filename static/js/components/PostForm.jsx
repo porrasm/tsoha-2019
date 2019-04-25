@@ -7,7 +7,7 @@ class PostForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            response_id: null,
+            created_id: null,
             title: '',
             text: ''
         }
@@ -26,10 +26,14 @@ class PostForm extends React.Component {
         const request = posts.create(post)
 
         request.then(res => {
+
+            console.log('Post create response: ', res)
+
             this.setState({
+                created_id: res.id,
                 title: '',
                 text: ''
-            })
+            })       
         })
 
 
@@ -45,23 +49,27 @@ class PostForm extends React.Component {
             console.log("Redirecting to home")
             return <Redirect to='/login' />
         }
+        if (this.state.created_id) {
+            const url = '/posts/' + this.state.created_id
+            return <Redirect to={url} />
+        }
 
         return (
             <div>
                 <h2>Create post</h2>
 
                 <form onSubmit={this.createPost.bind(this)}>
-                    <div>
-                        Title
-                        <input
+                    Title
+                    <div>                    
+                        <textarea
                             value={this.state.title}
                             name='title'
                             onChange={this.handleChange.bind(this)}
                         />
                     </div>
-                    <div>
-                        Text
-                        <input
+                    Text
+                    <div> 
+                        <textarea
                             value={this.state.text}
                             name='text'
                             onChange={this.handleChange.bind(this)}

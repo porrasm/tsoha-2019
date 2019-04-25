@@ -10,18 +10,19 @@ class CommentContainer extends React.Component {
         const comment = this.props.comment
         const response = comment.response_to ? (<div>Response to: {comment.response_to}:{"\n"}</div>) : null
         const actions = this.props.login ? (
-        <Comment.Actions>
-            <Comment.Action onClick={() => comments.like(comment.id)}>Like</Comment.Action>
-            <Comment.Action onClick={() => comments.dislike(comment.id)}>Dislike</Comment.Action>
-            <Comment.Action onClick={() => this.props.setCommentResponseID({id: comment.id, username: comment.user_username})}>Reply</Comment.Action>
-        </Comment.Actions>) : null
+            <Comment.Actions>
+                <Comment.Action onClick={() => comments.like(comment.id)}>Like</Comment.Action>
+                <Comment.Action onClick={() => comments.dislike(comment.id)}>Dislike</Comment.Action>
+                <Comment.Action onClick={() => this.props.setCommentResponseID({ id: comment.id, username: comment.user_username })}>Reply</Comment.Action>
+            </Comment.Actions>) : null
 
         if (!comment) {
             return null
         }
 
         return (
-            <Message>
+            <div>
+                <Divider />
                 <Comment>
                     <Comment.Content>
 
@@ -34,15 +35,15 @@ class CommentContainer extends React.Component {
                             <div>Date: {comment.date_created}</div>
                         </Comment.Metadata>
 
-                        <Comment.Text>        
-                            {comment.text}
+                        <Comment.Text>
+                            <p style={{whiteSpace: 'pre-line'}}>{comment.text}</p>
                         </Comment.Text>
 
                         {actions}
                     </Comment.Content>
 
                 </Comment>
-            </Message>
+            </div>
         )
 
         return (

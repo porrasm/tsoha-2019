@@ -31,12 +31,12 @@ class CommentForm extends React.Component {
 
                 console.log('Comment created successfully')
 
-                this.setState({message: 'Created comment', comment: null})
+                this.setState({ message: 'Created comment', comment: null })
                 this.props.appendComment(res)
             } else {
 
                 console.log('Commenting failed: ', res)
-                this.setState({message: 'Failed to create comment'})        
+                this.setState({ message: 'Failed to create comment' })
             }
             this.removeMessage()
         })
@@ -69,9 +69,9 @@ class CommentForm extends React.Component {
                 {responseMessage}
 
                 <form onSubmit={this.comment.bind(this)}>
+                    <p>Comment text</p>
                     <div>
-                        Comment text
-                        <input
+                        <textarea
                             value={this.state.username}
                             name='comment_text'
                             onChange={this.handleChange.bind(this)}

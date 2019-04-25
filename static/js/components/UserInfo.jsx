@@ -44,7 +44,7 @@ class UserInfo extends React.Component {
 
         return (<Table>
             <Table.Body>
-            {rows}
+                {rows}
             </Table.Body>
         </Table>)
     }
@@ -64,17 +64,19 @@ class UserInfo extends React.Component {
         const info = this.state.info
 
         if (!info) {
-            return null
+            return <p>Login expired</p>
         }
 
         return (
             <div>
 
-                <Header as="h2">
-                    Stats
-                </Header>
+                <Container textAlign='center'>
+                    <Header as="h2">
+                        Stats
+                    </Header>
+                    {this.jsonToTable(info)}
+                </Container>
 
-                {this.jsonToTable(info)}
             </div>
         )
     }

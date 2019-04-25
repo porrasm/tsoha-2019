@@ -84,8 +84,11 @@ class AccountPage extends React.Component {
 
                 <Divider />
 
-                <EditAccount user={user} updateAccount={this.updateAccount.bind(this)} message={this.state.message} />
-                <button onClick={this.deleteAccount.bind(this)}>Delete account</button>
+                <Container textAlign="left">
+                    <EditAccount user={user} updateAccount={this.updateAccount.bind(this)} message={this.state.message} />
+                    <button onClick={this.deleteAccount.bind(this)}>Delete account</button>
+                </Container>
+
             </div>
         )
     }

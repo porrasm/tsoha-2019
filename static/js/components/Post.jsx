@@ -30,6 +30,8 @@ class Post extends React.Component {
 
         request.then(response => {
             console.log("get post response: ", response)
+
+
             this.setState({ post: response })
         })
     }
@@ -175,12 +177,9 @@ class Post extends React.Component {
                     <Header as='h2'>{this.state.post.title}</Header>
 
                 </Container>
-                <Container textAlign='left'>
-
+                <Container textAlign='left' >
                     <Divider />
-                    <p>
-                        {this.state.post.text}
-                    </p>
+                    <p style={{whiteSpace: 'pre-wrap'}}>{this.state.post.text}</p>
                 </Container>
 
                 <Container textAlign='left' >

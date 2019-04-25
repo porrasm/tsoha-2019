@@ -43,10 +43,8 @@ class App extends React.Component {
                         <MenuViews.Menus />
 
                         <Route exact path="/" render={() => <PostList />} />
-                        <Route exact path="/posts/get/:id" component={Post} />
-
-                        <Route exact path="/posts/get/:id/" component={Post} />
-                        <Route exact path="/posts/new" render={() => <PostForm user={this.props.userContainer.current_user}/>} />
+                        <Route exact path="/posts/:id" component={Post} />
+                        <Route exact path="/create" render={() => <PostForm user={this.props.userContainer.current_user}/>} />
                         <Route exact path="/login" render={() => <LoginForm.LoginForm />} />
                         <Route exact path="/register" render={() => <LoginForm.RegisterForm />} />
                         <Route exact path="/account" render={() => <AccountPage />} />

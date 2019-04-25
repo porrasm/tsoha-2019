@@ -55,7 +55,7 @@ const postListings = (posts) => {
 
 const singlePost = (post) => {
 
-    const postUrl = "/posts/get/" + post.id
+    const postUrl = "/posts/" + post.id
     console.log(postUrl)
 
     return (

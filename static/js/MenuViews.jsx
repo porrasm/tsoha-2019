@@ -42,7 +42,7 @@ class Menus extends React.Component {
                 <Menu inverted>
 
                     <Menu.Item link>
-                        <Link to="/posts/new">Create new post</Link>
+                        <Link to="/create">Create new post</Link>
                     </Menu.Item>
 
                     <Menu.Item link>
