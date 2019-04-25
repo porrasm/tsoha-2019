@@ -44,6 +44,8 @@ class App extends React.Component {
 
                         <Route exact path="/" render={() => <PostList />} />
                         <Route exact path="/posts/get/:id" component={Post} />
+
+                        <Route exact path="/posts/get/:id/" component={Post} />
                         <Route exact path="/posts/new" render={() => <PostForm user={this.props.userContainer.current_user}/>} />
                         <Route exact path="/login" render={() => <LoginForm.LoginForm />} />
                         <Route exact path="/register" render={() => <LoginForm.RegisterForm />} />
