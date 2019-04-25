@@ -119,6 +119,10 @@ class CommentVote(db.Model):
         self.user_id = user_id
         self.like = like
 
+    @staticmethod
+    def get_vote(comment_id, user_id, like):
+        return CommentVote.query.filter_by(comment_id=comment_id, user_id=user_id, like=like).first()
+
 ## Schemas
 
 class CommentSchema(ma.ModelSchema):

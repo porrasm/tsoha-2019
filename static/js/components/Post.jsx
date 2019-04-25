@@ -36,8 +36,11 @@ class Post extends React.Component {
 
     comments() {
 
+        const login = this.props.userContainer.current_user ? true : false
+
         const comments = this.mapCommentResponses(this.state.post.comments)
 
+        console.log('Login status: ', login)
         console.log('Rendering comments: ', comments)
 
         if (!comments) {
@@ -45,7 +48,7 @@ class Post extends React.Component {
         }
 
         const commentList = comments.map(comment => (
-            <CommentContainer comment={comment} key={comment.id}
+            <CommentContainer comment={comment} key={comment.id} login={login}
                 setCommentResponseID={this.setCommentResponseID.bind(this)} />
         ))
 

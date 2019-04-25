@@ -1,6 +1,6 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
-from application.posts.postModels import Post, post_schema, posts_schema, Comment, comment_schema, comments_schema, PostVote
+from application.posts.postModels import Post, post_schema, posts_schema, Comment, comment_schema, comments_schema, PostVote, CommentVote
 from application.users.userModels import User, user_schema, users_schema
 from flask import jsonify
 from flask_marshmallow import Marshmallow
@@ -122,7 +122,6 @@ def posts_like(post_id):
     return post_vote(post, current_user, True)
 
 
-
 @app.route(f"{route}/dislike/<post_id>", methods=["GET"])
 @jwt_required
 def posts_dislike(post_id):
@@ -166,7 +165,7 @@ def post_vote(post, user, like):
     return jsonify({"like": like, "value": amount, "opposite_value": alternate_amount}), 200
 
 # Comment creating
-@app.route(f"{route}/comment/<post_id>/<comment_id>", methods=["POST"])
+@app.route(f"{route}/comments/<post_id>/<comment_id>", methods=["POST"])
 @jwt_required
 def create_comment(post_id, comment_id):
 
@@ -200,3 +199,59 @@ def create_comment(post_id, comment_id):
     db.session().commit()
   
     return jsonify(comment_schema.dump(comment).data), 201
+
+# Comment voting
+@app.route(f"{route}/comments/like/<comment_id>", methods=["GET"])
+@jwt_required
+def comments_like(comment_id):
+
+    print("\nLiking comment: ", comment_id)
+
+    comment = Comment.query.get(comment_id)
+    current_user = get_jwt_identity()
+
+    return comment_vote(comment, current_user, True)
+
+@app.route(f"{route}/comments/dislike/<comment_id>", methods=["GET"])
+@jwt_required
+def comments_dislike(comment_id):
+
+    print("\nDisliking comment: ", comment_id)
+
+    comment = Comment.query.get(comment_id)
+    current_user = get_jwt_identity()
+
+    return comment_vote(comment, current_user, False)
+
+def comment_vote(comment, user, like):
+
+    print("Voting comment: ", comment.text)
+    
+    previous_vote = CommentVote.get_vote(comment.id, user["id"], like)
+    opposite_vote = CommentVote.get_vote(comment.id, user["id"], not like)
+    new_vote = CommentVote(comment.id, user["id"], like)
+
+    amount = 0
+    alternate_amount = 0
+
+    if previous_vote:
+        amount = -1
+        db.session().delete(previous_vote)
+    else:
+        amount = 1
+        db.session().add(new_vote)
+
+    if opposite_vote:
+        alternate_amount = -1
+        db.session().delete(opposite_vote)
+
+    if like:
+        comment.upvotes += amount
+        comment.downvotes += alternate_amount
+    else:
+        comment.downvotes += amount
+        comment.upvotes += alternate_amount
+
+    db.session().commit()
+  
+    return jsonify({"like": like, "value": amount, "opposite_value": alternate_amount}), 200

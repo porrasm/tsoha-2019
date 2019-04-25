@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = "/api/posts/comment"
+const baseUrl = "/api/posts/comments"
 
 let user
 
@@ -29,4 +29,31 @@ const getToken = () => {
     return token
 }
 
-export default { createComment, setUser }
+const like = async (id) => {
+
+    const config = {
+        headers: { 'Authorization': getToken() }
+    }
+
+    try {
+        const response = await axios.get(baseUrl + "/like/" + id, config)
+        return response.data
+    } catch (error) {
+        console.log('Error liking post: ', error)
+    }
+}
+const dislike = async (id) => {
+
+    const config = {
+        headers: { 'Authorization': getToken() }
+    }
+
+    try {
+        const response = await axios.get(baseUrl + "/dislike/" + id, config)
+        return response.data
+    } catch (error) {
+        console.log('Error disliking post: ', error)
+    }
+}
+
+export default { createComment, setUser, like, dislike }
