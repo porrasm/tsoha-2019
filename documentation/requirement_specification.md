@@ -30,8 +30,34 @@ Editing posts or comments should not be allowed.
 
 ### Signed in users
 
-- a signed in user can create a posts
+- a signed in user can create posts
+- a signed in user can create comments
+- a signed in user can reply to a comment
 - a signed in user can upvote/downvote posts
 - a signed in user can upvote/downvote comments
 - a signed in user can view his or her posts
 - a signed in user can delete his or her post
+- a signed in user can delete his or her comment
+
+## Current functionality
+
+### Basic functionality
+
+- users can view posts
+- the amount of likes and dislikes will be visible
+
+### Account management
+
+- a user can create an account
+- a user can sign in
+- a user can delete his or her account
+
+### Signed in users
+
+- a signed in user can create a posts
+- a signed in user can create comments
+- a signed in user can reply to a comment
+- a signed in user can upvote/downvote posts
+- a signed in user can upvote/downvote comments (refresh browser)
+- a signed in user can delete his or her post
+- a signed in user can delete his or her comment (refresh browser)

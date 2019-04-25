@@ -255,3 +255,21 @@ def comment_vote(comment, user, like):
     db.session().commit()
   
     return jsonify({"like": like, "value": amount, "opposite_value": alternate_amount}), 200
+
+# Comment deletion
+@app.route(f"{route}/comments/delete/<comment_id>", methods=["DELETE"])
+@jwt_required
+def comments_delete(comment_id):
+
+    print("\nDisliking comment: ", comment_id)
+
+    comment = Comment.query.get(comment_id)
+    current_user = get_jwt_identity()
+
+    if current_user["id"] != comment.user_id:
+        return jsonify({"error": "You are not signed in or are trying to delete a comment that isn't yours."}), 401
+
+    stmt = text(f"DELETE FROM Comment WHERE Comment.id = {comment_id}")
+    response = db.engine.execute(stmt)
+
+    return jsonify({"message": "Successfully deleted comment"})

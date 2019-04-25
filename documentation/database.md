@@ -5,11 +5,12 @@
 
 # Database structure
 
+Original database structure draft:
+
 ![Database schema idea](https://github.com/porrasm/tsoha-2019/blob/master/documentation/database_schema_idea.png)
 
-This is a simple draft of the database schema.
 
-Current database schema looks like this
+Current database schema:
 
 ![Current database schema](https://github.com/porrasm/tsoha-2019/blob/master/documentation/database_schema.png)
 

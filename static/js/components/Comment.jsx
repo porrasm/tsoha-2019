@@ -10,8 +10,10 @@ class CommentContainer extends React.Component {
         const comment = this.props.comment
         const response = comment.response_to ? (<div>Response to: {comment.response_to}:{"\n"}</div>) : null
 
-        const deleteAction = this.props.user.user_id == this.props.comment.user_id || this.props.user.username == 'admin' ? 
+        const deleteAction = this.props.user.id == this.props.comment.user_id || this.props.user.username == 'admin' ? 
         <Comment.Action onClick={() => comments.delete(comment.id)}>Delete</Comment.Action> : null
+
+        console.log('DELETE ACTION: ', deleteAction)
 
         const actions = this.props.user ? (
             <Comment.Actions>
