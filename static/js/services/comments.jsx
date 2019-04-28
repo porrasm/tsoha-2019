@@ -15,6 +15,17 @@ const createComment = async (comment, post_id, comment_id) => {
     return response.data
 }
 
+const updateComment = async (newComment) => {
+
+
+    const config = {
+        headers: { 'Authorization': getToken() }
+    }
+
+    const response = await axios.put(`${baseUrl}/${newComment.id}`, newComment, config)
+    return response.data
+}
+
 const setUser = (newUser) => {
     user = newUser
 }
@@ -69,4 +80,4 @@ const deleteFunction = async (id) => {
     }
 }
 
-export default { createComment, setUser, like, dislike, delete: deleteFunction }
+export default { createComment, updateComment, setUser, like, dislike, delete: deleteFunction }

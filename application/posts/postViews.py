@@ -200,6 +200,43 @@ def create_comment(post_id, comment_id):
   
     return jsonify(comment_schema.dump(comment).data), 201
 
+# Commend updating
+@app.route(f"{route}/comments/<comment_id>", methods=["PUT"])
+@jwt_required
+def update_comment(comment_id):
+
+    print("\nTrying to update comment...")
+
+    updated_comment = request.get_json(silent=True)
+    current_user = get_jwt_identity()
+
+
+    if not current_user:
+        return jsonify({"error": "Error creating comment, user token was invalid"}), 401
+
+    database_comment = Comment.query.get(comment_id)
+
+    if not database_comment:
+        return jsonify({"error": "Comment not found. Maybe it was deleted."}), 404
+
+    
+
+    print("content: ", updated_comment)
+
+    comment_text = updated_comment["text"]
+
+    if not comment_text:
+        return jsonify({"error": "Comment text must not be empty."}), 400
+
+    if len(comment_text) == 0 or len(comment_text) > 2048:
+        return jsonify({"error": "Comment text must be between 1-2048 characters"}), 400
+
+    database_comment.text = updated_comment["text"]
+    db.session().commit()
+  
+    return jsonify(comment_schema.dump(database_comment).data), 201
+
+
 # Comment voting
 @app.route(f"{route}/comments/like/<comment_id>", methods=["GET"])
 @jwt_required

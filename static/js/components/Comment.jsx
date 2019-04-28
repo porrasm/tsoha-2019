@@ -8,19 +8,20 @@ class CommentContainer extends React.Component {
     render() {
 
         const comment = this.props.comment
-        const response = comment.response_to ? (<div>Response to: {comment.response_to}:{"\n"}</div>) : null
+        const response = comment.response_to ? (<div>Response to: {comment.response_to.username} #{comment.response_to.order_id}:{"\n"}</div>) : null
 
-        const deleteAction = this.props.user.id == this.props.comment.user_id || this.props.user.username == 'admin' ? 
-        <Comment.Action onClick={() => comments.delete(comment.id)}>Delete</Comment.Action> : null
+        const userActions = this.props.user.id == this.props.comment.user_id || this.props.user.username == 'admin' ?
+            (<span><Comment.Action onClick={() => this.props.setCommentResponseID({ edit: true, id: comment.id, order_id: comment.order_id, edit_text: comment.text, edit_comment: comment })}>Edit</Comment.Action>
+                <Comment.Action onClick={() => comments.delete(comment.id)}>Delete</Comment.Action></span>) : null
 
-        console.log('DELETE ACTION: ', deleteAction)
+        console.log('DELETE ACTION: ', userActions)
 
         const actions = this.props.user ? (
             <Comment.Actions>
                 <Comment.Action onClick={() => comments.like(comment.id)}>Like</Comment.Action>
                 <Comment.Action onClick={() => comments.dislike(comment.id)}>Dislike</Comment.Action>
-                <Comment.Action onClick={() => this.props.setCommentResponseID({ id: comment.id, username: comment.user_username })}>Reply</Comment.Action>
-                {deleteAction}
+                <Comment.Action onClick={() => this.props.setCommentResponseID({ id: comment.id, username: comment.user_username, order_id: comment.order_id })}>Reply</Comment.Action>
+                {userActions}
             </Comment.Actions>) : null
 
         if (!comment) {
@@ -33,7 +34,7 @@ class CommentContainer extends React.Component {
                 <Comment>
                     <Comment.Content>
 
-                        <Comment.Author>{comment.user_username}</Comment.Author>
+                        <Comment.Author>#{comment.order_id} {comment.user_username}</Comment.Author>
 
                         <Comment.Metadata>
                             {response}
@@ -43,7 +44,7 @@ class CommentContainer extends React.Component {
                         </Comment.Metadata>
 
                         <Comment.Text>
-                            <p style={{whiteSpace: 'pre-line'}}>{comment.text}</p>
+                            <p style={{ whiteSpace: 'pre-line' }}>{comment.text}</p>
                         </Comment.Text>
 
                         {actions}

@@ -60,15 +60,18 @@ class Post extends React.Component {
     mapCommentResponses(oldComments) {
 
         const comments = new Map()
+        let orderIndex = 1
 
-        for (let comment of oldComments) {
+        for (let comment of oldComments.sort((a, b) => new Date(a.date_created) - new Date(b.date_created))) {
+            comment.order_id = orderIndex
+            orderIndex++
             comments.set(comment.id, comment)
         }
 
         return oldComments.map(comment => {
             if (comment.response_id) {
-                const responseTo = comments.get(comment.response_id).user_username
-                comment.response_to = responseTo
+                const responseTo = comments.get(comment.response_id)
+                comment.response_to = { username: responseTo.user_username, order_id: responseTo.order_id }
             }
             return comment
         })
@@ -121,7 +124,7 @@ class Post extends React.Component {
     setCommentResponseID(response) {
 
         if (this.state.comment_response) {
-            if (this.state.comment_response.id == response.id) {
+            if (this.state.comment_response.id == response.id && this.state.comment_response.edit == response.edit) {
                 console.log('Resetting response: ', response)
                 this.setState({ comment_response: null })
                 return
@@ -151,10 +154,11 @@ class Post extends React.Component {
 
         const comments = this.comments()
 
+        console.log('Giving comment form new props: ', this.state.comment_response)
         const commentForm = user ? (
             <CommentForm post={this.state.post}
                 appendComment={this.appendComment.bind(this)}
-                comment_response={this.state.comment_response} />) : null   
+                comment_response={this.state.comment_response} />) : null
 
         let deleteButton = null
         if (user) {
@@ -179,7 +183,7 @@ class Post extends React.Component {
                 </Container>
                 <Container textAlign='left' >
                     <Divider />
-                    <p style={{whiteSpace: 'pre-wrap'}}>{this.state.post.text}</p>
+                    <p style={{ whiteSpace: 'pre-wrap' }}>{this.state.post.text}</p>
                 </Container>
 
                 <Container textAlign='left' >
