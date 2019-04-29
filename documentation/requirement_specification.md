@@ -54,7 +54,7 @@ Editing posts or comments should not be allowed.
 
 ### Signed in users
 
-- a signed in user can create a posts
+- a signed in user can create posts
 - a signed in user can create comments
 - a signed in user can reply to a comment
 - a signed in user can upvote/downvote posts
