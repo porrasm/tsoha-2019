@@ -65,6 +65,17 @@ def most_active_users():
 
     return jsonify(users)
 
+@app.route("/api/users/rated", methods=["GET"])
+def highest_rated_users(): 
+
+    print("\nReturning highest rated users: ")
+  
+    users = User.highest_rated_users()
+
+    print(users)
+
+    return jsonify(users)
+
 
 @app.route("/api/update/<user_id>", methods=["PUT"])
 @jwt_required

@@ -118,5 +118,16 @@ const getActiveUsers = async () => {
         return []
     }
 }
+const getRatedUsers = async () => {
 
-export default { setUser, getAll, getOne, getUserInfo, update, login, register, deleteAccount, getActiveUsers }
+    console.log('Getting active users')
+
+    try {
+        const response = await axios.get(baseUrl + "users/rated")
+        return response.data
+    } catch (error) {
+        return []
+    }
+}
+
+export default { setUser, getAll, getOne, getUserInfo, update, login, register, deleteAccount, getActiveUsers, getRatedUsers }

@@ -108,8 +108,36 @@ class User(db.Model):
             row_dict = {
                 "username": row.username,
                 "id": row.id,
-                "post_count": row.post_count
+                "value": row.post_count
             }
+
+            users.append(row_dict)
+
+        return users
+
+    @staticmethod
+    def highest_rated_users():
+
+        stmt = text(f"""SELECT Account.username, Account.id, 
+                        (CAST((COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0)) AS FLOAT) / 
+                        CAST((COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Post.downvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0) + COALESCE(SUM(distinct Comment.downvotes),0)) AS FLOAT)) as like_ratio
+                        FROM Account LEFT JOIN Post ON Account.id = Post.user_id
+                        LEFT JOIN Comment ON Account.id = Comment.user_id
+                        GROUP BY Account.username ORDER BY like_ratio DESC LIMIT 10""")              
+
+        response = db.engine.execute(stmt)
+
+        users = []
+
+        for row in response:
+
+            row_dict = {
+                "username": row.username,
+                "id": row.id,
+                "value": row.like_ratio
+            }
+
+            print("User like ratio: ", row.like_ratio)
 
             users.append(row_dict)
 

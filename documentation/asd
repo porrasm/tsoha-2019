@@ -1,0 +1,6 @@
+SELECT Account.username, Account.id, 
+                        (CAST((COUNT(*) (SELECT * FROM Post_Vote WHERE Post_Vote.Like = 1) + COUNT(*) (SELECT * FROM Comment_Vote WHERE Comment_Vote.Like = 1)) AS FLOAT) /
+                        CAST((COUNT(Post_Vote.*) + COUNT(Comment_Vote.*)) AS FLOAT)) as like_ratio
+                        FROM Account LEFT JOIN Post_Vote ON Account.id = Post_Vote.user_id
+                        LEFT JOIN Comment_Vote ON Account.id = Comment_Vote.user_id
+                        GROUP BY Account.username ORDER BY like_ratio DESC LIMIT 10

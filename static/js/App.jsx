@@ -2,13 +2,14 @@ import React from "react";
 import { Menu } from 'semantic-ui-react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
+import Home from './components/Home'
 import MenuViews from './MenuViews'
 import PostList from './components/PostList'
 import PostForm from './components/PostForm'
 import Post from './components/Post'
 import LoginForm from "./components/LoginForm";
 import AccountPage from './components/AccountPage'
-import ActiveUsers from './components/ActiveUsers'
+import TopUsers from './components/TopUsers'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from './reducers/userReducer'
@@ -43,6 +44,7 @@ class App extends React.Component {
                     <div>
                         <MenuViews.Menus />
 
+                        <Route exact path="/" render={() => <Home />} />
                         <Route exact path="/" render={() => <PostList />} />
                         <Route exact path="/posts/:id" component={Post} />
                         <Route exact path="/create" render={() => <PostForm user={this.props.userContainer.current_user}/>} />
@@ -50,7 +52,7 @@ class App extends React.Component {
                         <Route exact path="/register" render={() => <LoginForm.RegisterForm />} />
                         <Route exact path="/account" render={() => <AccountPage user_id={this.props.userContainer.current_user ? this.props.userContainer.current_user.id : null}/>} />
                         <Route exact path="/users/:user_id" component={AccountPage} />
-                        <Route exact path="/active_users" render={() => <ActiveUsers />} />
+                        <Route exact path="/top_users" render={() => <TopUsers />} />
                     </div>
                 </Router>
 

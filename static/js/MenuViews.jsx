@@ -46,7 +46,7 @@ class Menus extends React.Component {
                     </Menu.Item>
 
                     <Menu.Item link>
-                        <Link to="/">Posts</Link>
+                        <Link to="/">Home</Link>
                     </Menu.Item>
 
                     {userButton}
