@@ -2,6 +2,7 @@ import React from "react";
 import posts from '../services/posts'
 import { Table, Message, Container, Divider, Comment, Form } from 'semantic-ui-react'
 import comments from '../services/comments'
+import { Link } from 'react-router-dom'
 
 class CommentContainer extends React.Component {
 
@@ -28,13 +29,15 @@ class CommentContainer extends React.Component {
             return null
         }
 
+        const userLink = "/users/" + comment.user_id
+
         return (
             <div>
                 <Divider />
                 <Comment>
                     <Comment.Content>
 
-                        <Comment.Author>#{comment.order_id} {comment.user_username}</Comment.Author>
+                        <Comment.Author>#{comment.order_id} <Link to={userLink}>{comment.user_username}</Link></Comment.Author>
 
                         <Comment.Metadata>
                             {response}

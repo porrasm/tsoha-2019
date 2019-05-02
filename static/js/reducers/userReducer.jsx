@@ -22,6 +22,7 @@ export const setCurrentUser = (user) => {
 
     posts.setUser(user)
     comments.setUser(user)
+    users.setUser(user)
 
     return async (dispatch) => {
         dispatch({

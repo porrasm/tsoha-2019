@@ -92,6 +92,30 @@ class User(db.Model):
         return User.query.filter_by(id=id).first()
 
     @staticmethod
+    def most_active_users():
+
+        stmt = text(f"""SELECT Account.username, Account.id, COUNT(*) as post_count
+                        FROM Account LEFT JOIN Post ON Account.id = Post.user_id
+                        AND Post.date_created <= DATE('now', '-7 day')
+                        GROUP BY Account.username ORDER BY post_count DESC LIMIT 10""")
+
+        response = db.engine.execute(stmt)
+
+        users = []
+
+        for row in response:
+
+            row_dict = {
+                "username": row.username,
+                "id": row.id,
+                "post_count": row.post_count
+            }
+
+            users.append(row_dict)
+
+        return users
+
+    @staticmethod
     def create_admin():
         
         print("\nCreating admin")

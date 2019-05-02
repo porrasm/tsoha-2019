@@ -16,7 +16,15 @@ class AccountPage extends React.Component {
     constructor(props) {
         super(props)
 
+        let id = this.props.user_id
+        if (!id) {
+            if (this.props.match) {
+                id = this.props.match.params.user_id
+            }
+        }
+
         this.state = {
+            user_id: id,
             message: null
         }
     }
@@ -71,23 +79,30 @@ class AccountPage extends React.Component {
     render() {
 
         const user = this.props.userContainer.current_user
+        const otherId = this.state.user_id
+
+
+        console.log('URL id: ', otherId)
 
         if (!user) {
             console.log("Redirecting to home")
             return <Redirect to='/' />
         }
 
+        const editAccount = otherId == user.id ? (<Container textAlign="left">
+            <EditAccount user={user} updateAccount={this.updateAccount.bind(this)} message={this.state.message} />
+            <button onClick={this.deleteAccount.bind(this)}>Delete account</button>
+        </Container>) : null
+
+        console.log('Creating user info with id: ', otherId)
+        const userInfo = otherId ? (<UserInfo user_id={otherId} />) : null
+
         return (
             <div>
 
-                <UserInfo user={user} />
-
+                {editAccount}
                 <Divider />
-
-                <Container textAlign="left">
-                    <EditAccount user={user} updateAccount={this.updateAccount.bind(this)} message={this.state.message} />
-                    <button onClick={this.deleteAccount.bind(this)}>Delete account</button>
-                </Container>
+                {userInfo}
 
             </div>
         )
@@ -164,11 +179,11 @@ class EditAccount extends React.Component {
                     <div>
                         Old password (must not be empty)
                             <input
-                                type='password'
-                                value={this.state.password}
-                                name='password'
-                                onChange={this.handleChange.bind(this)}
-                            />
+                            type='password'
+                            value={this.state.password}
+                            name='password'
+                            onChange={this.handleChange.bind(this)}
+                        />
                     </div>
 
                     <button type="submit">Submit</button>

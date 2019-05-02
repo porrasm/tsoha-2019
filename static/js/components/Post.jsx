@@ -4,6 +4,7 @@ import CommentContainer from '../components/Comment'
 import CommentForm from '../components/CommentForm'
 import { Table, Message, Container, Divider, Header, Comment, Button, Label } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from '../reducers/userReducer'
@@ -173,10 +174,13 @@ class Post extends React.Component {
             {deleteButton}
         </div>) : null
 
+        const userLink = "/users/" + this.state.post.user.id
+
         return (
             <div>
                 <Container textAlign='left'>
-                    <p>Post by: {this.state.post.user.username}</p>
+                    <br />
+                    <p>Post by: <Link to={userLink}>{this.state.post.user.username}</Link></p>
 
                     <Header as='h2'>{this.state.post.title}</Header>
 

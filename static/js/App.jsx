@@ -8,6 +8,7 @@ import PostForm from './components/PostForm'
 import Post from './components/Post'
 import LoginForm from "./components/LoginForm";
 import AccountPage from './components/AccountPage'
+import ActiveUsers from './components/ActiveUsers'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from './reducers/userReducer'
@@ -47,7 +48,9 @@ class App extends React.Component {
                         <Route exact path="/create" render={() => <PostForm user={this.props.userContainer.current_user}/>} />
                         <Route exact path="/login" render={() => <LoginForm.LoginForm />} />
                         <Route exact path="/register" render={() => <LoginForm.RegisterForm />} />
-                        <Route exact path="/account" render={() => <AccountPage />} />
+                        <Route exact path="/account" render={() => <AccountPage user_id={this.props.userContainer.current_user ? this.props.userContainer.current_user.id : null}/>} />
+                        <Route exact path="/users/:user_id" component={AccountPage} />
+                        <Route exact path="/active_users" render={() => <ActiveUsers />} />
                     </div>
                 </Router>
 

@@ -23,6 +23,28 @@ def posts_index():
 
     return jsonify(posts)
 
+# Posts by user
+@app.route(f"{route}/by/<user_id>", methods=["GET"])
+def posts_by_user(user_id):
+
+    print("\nGetting posts by user: " + user_id)
+
+    stmt = text(f"SELECT * FROM Post WHERE Post.user_id={user_id}")
+    response = db.engine.execute(stmt)
+
+    posts = []
+    for row in response:
+        posts.append(row)
+
+    print("query length: ", len(posts))
+
+    posts_dump = posts_schema.dump(posts).data
+
+    print("returning posts ", len(posts))
+
+    return jsonify(posts_dump)
+
+
 # Single post
 @app.route(f"{route}/<post_id>/", methods=["GET"])
 def posts_get(post_id):

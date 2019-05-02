@@ -54,6 +54,17 @@ def user_register():
 
     return get_authenticated_user(new_user, False), 201
 
+@app.route("/api/users/active", methods=["GET"])
+def most_active_users(): 
+
+    print("\nReturning most active users: ")
+  
+    users = User.most_active_users()
+
+    print(users)
+
+    return jsonify(users)
+
 
 @app.route("/api/update/<user_id>", methods=["PUT"])
 @jwt_required
@@ -154,14 +165,14 @@ def get_user_info(user_id):
 
     print("\nGetting user info: ", user_id)
 
-    identity = get_jwt_identity()
-
     database_user = User.get_user_by_id(user_id)
 
     if not database_user:
         return jsonify({"error": "This account is not found"}), 404
 
     response = {}
+
+    response["_username"] = database_user.username
 
     response["post_amount"] = database_user.post_amount()
     response["post_like_ratio"] = database_user.post_like_ratio()

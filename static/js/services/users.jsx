@@ -1,6 +1,12 @@
 import axios from 'axios'
 const baseUrl = "/api/"
 
+let login_user
+
+const setUser = (newUser) => {
+    login_user = newUser
+}
+
 const getAll = async () => {
     const response = await axios.get(baseUrl)
     return response.data
@@ -53,12 +59,20 @@ const register = async (user) => {
 
 const getUserInfo = async (user) => {
 
+    console.log('Getting user info method: ', user)
+
+    if (!user) {
+        return {}
+    }
+
+    const id = user.id ? user.id : user
+
     const config = {
-        headers: { 'Authorization': getToken(user) }
+        headers: { 'Authorization': getToken() }
     }
 
     try {
-        const response = await axios.get(baseUrl + "account/" + user.id, config)
+        const response = await axios.get(baseUrl + "account/" + id, config)
         return response.data
     } catch (error) {
         return error
@@ -82,7 +96,10 @@ const deleteAccount = async (user) => {
 const getToken = (user) => {
 
     if (!user) {
-        return 'Bearer empty'
+        if (!login_user) {
+            return 'Bearer empty'
+        }
+        return getToken(login_user)
     }
 
     const token = `Bearer ${user.access_token}`
@@ -90,4 +107,16 @@ const getToken = (user) => {
     return token
 }
 
-export default { getAll, getOne, getUserInfo, update, login, register, deleteAccount }
+const getActiveUsers = async () => {
+
+    console.log('Getting active users')
+
+    try {
+        const response = await axios.get(baseUrl + "users/active")
+        return response.data
+    } catch (error) {
+        return []
+    }
+}
+
+export default { setUser, getAll, getOne, getUserInfo, update, login, register, deleteAccount, getActiveUsers }
