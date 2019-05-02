@@ -36,8 +36,7 @@ TABLE post_vote {
 }
 TABLE comment_vote {
         id INTEGER
-        comment_id INTEGER
         user_id INTEGER [ref: > account.id]
+        comment_id INTEGER [ref: > comment.id]
         like BOOLEAN
-
 }
