@@ -3,6 +3,8 @@
 
 [ReadIt Forum on Heroku](https://readit-forum.herokuapp.com/)
 
+[Use cases](https://github.com/porrasm/tsoha-2019/blob/master/documentation/user_cases.md)
+
 # Database structure
 
 Original database structure draft:
@@ -76,3 +78,5 @@ CREATE TABLE comment_vote (
         CHECK ("like" IN (0, 1))
 );
 ```
+
+### For use cases and SQL queries see [use cases](https://github.com/porrasm/tsoha-2019/blob/master/documentation/user_cases.md)

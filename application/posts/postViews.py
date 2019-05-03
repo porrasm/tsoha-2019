@@ -116,16 +116,8 @@ def posts_delete(post_id):
     if post.user_id != database_user.id and not database_user.is_admin:
         return jsonify({"error": "You do not have the permission to delete this post."}), 401
 
-    stmt = text(f"DELETE FROM Comment WHERE Comment.post_id = {post.id}")
-    response = db.engine.execute(stmt)
-
-    stmt = text(f"DELETE FROM Post_Vote WHERE Post_Vote.post_id = {post.id}")
-    response = db.engine.execute(stmt)
-
     stmt = text(f"DELETE FROM Post WHERE Post.id = {post.id}")
     response = db.engine.execute(stmt)
-
-    # Comment vote deletion
 
     return jsonify({"message": "Successfully deleted post"})
 
@@ -320,7 +312,7 @@ def comment_vote(comment, user, like):
 @jwt_required
 def comments_delete(comment_id):
 
-    print("\nDisliking comment: ", comment_id)
+    print("\Deleting comment: ", comment_id)
 
     comment = Comment.query.get(comment_id)
     current_user = get_jwt_identity()

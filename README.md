@@ -18,6 +18,8 @@ Test login password: 12345
 
 [Database structure](https://github.com/porrasm/tsoha-2019/blob/master/documentation/database.md)
 
+[Use cases](https://github.com/porrasm/tsoha-2019/blob/master/documentation/user_cases.md)
+
 ## About
 
 ReadIt Forum is an online forum inspired by Reddit. Users can create threads, post comments and like/dislike posts and comments. 
