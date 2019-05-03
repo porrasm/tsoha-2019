@@ -1,5 +1,5 @@
 from application import db, ma
-from sqlalchemy.sql import text
+import application.posts.post_sql_statements as stmts
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,12 +43,7 @@ class Post(db.Model):
 
             return comment
 
-        stmt = text(f"""SELECT Comment.id, Comment.text, Comment.upvotes, Comment.downvotes, Comment.date_created, Comment.edited, Comment.comment_id, 
-        Account.id, Account.username 
-        FROM Comment LEFT JOIN Account ON
-        Comment.user_id = Account.id
-        WHERE Comment.post_id = {self.id}""")
-
+        stmt = stmts.comments_with_authors_stmt(self.id)
         response = db.engine.execute(stmt)
 
         comments = []

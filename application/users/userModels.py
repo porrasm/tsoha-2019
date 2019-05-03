@@ -1,8 +1,7 @@
 from application import db, ma
 from werkzeug.security import safe_str_cmp
 from application.posts.postModels import Post, Comment
-from sqlalchemy.sql import text
-import application.users.sqlStatements as queries
+import application.users.user_sql_statements as stmts
 
 # Models
 class User(db.Model):
@@ -34,7 +33,7 @@ class User(db.Model):
         Post.query.filter_by()
 
     def post_amount(self):
-        stmt = text(f"""SELECT COUNT(*) FROM Post WHERE Post.user_id = {self.id} """)
+        stmt = stmts.post_amount_stmt(self.id)
 
         response = db.engine.execute(stmt)
 
@@ -45,10 +44,7 @@ class User(db.Model):
     def post_like_ratio(self):
 
         # Likes / Likes + Dislikes
-        stmt = text(f"""SELECT 
-        CAST((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = {self.id}) AS FLOAT) 
-        / 
-        CAST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = {self.id}) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = {self.id})) AS FLOAT)""")
+        stmt = stmts.post_like_ratio_stmt(self.id)
 
         response = db.engine.execute(stmt)
 
@@ -59,7 +55,7 @@ class User(db.Model):
         return value
 
     def comment_amount(self):
-        stmt = text(f"""SELECT COUNT(*) FROM Comment WHERE Comment.user_id = {self.id} """)
+        stmt = stmts.comment_amount_stmt(self.id)
 
         response = db.engine.execute(stmt)
 
@@ -70,10 +66,7 @@ class User(db.Model):
     def comment_like_ratio(self):
 
         # Likes / Likes + Dislikes
-        stmt = text(f"""SELECT 
-        CAST((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = {self.id}) AS FLOAT) 
-        / 
-        CAST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = {self.id}) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = {self.id})) AS FLOAT)""")
+        stmt = stmts.comment_like_ratio_stmt(self.id)
 
         response = db.engine.execute(stmt)
 
@@ -95,7 +88,7 @@ class User(db.Model):
     @staticmethod
     def most_active_users():
 
-        stmt = queries.most_active_users_stmt()
+        stmt = stmts.most_active_users_stmt()
 
         response = db.engine.execute(stmt)
 
@@ -116,7 +109,7 @@ class User(db.Model):
     @staticmethod
     def highest_rated_users():
 
-        stmt = queries.highest_rated_users_stmt()
+        stmt = stmts.highest_rated_users_stmt()
 
         response = db.engine.execute(stmt)
 

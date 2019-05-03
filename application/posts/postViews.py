@@ -5,7 +5,7 @@ from application.users.userModels import User, user_schema, users_schema
 from flask import jsonify
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
-from sqlalchemy.sql import text
+import application.posts.post_sql_statements as stmts
 
 route = "/api/posts"
 
@@ -29,7 +29,7 @@ def posts_by_user(user_id):
 
     print("\nGetting posts by user: " + user_id)
 
-    stmt = text(f"SELECT * FROM Post WHERE Post.user_id={user_id}")
+    stmt = stmts.posts_by_user_stmt(user_id)
     response = db.engine.execute(stmt)
 
     posts = []
@@ -116,7 +116,7 @@ def posts_delete(post_id):
     if post.user_id != database_user.id and not database_user.is_admin:
         return jsonify({"error": "You do not have the permission to delete this post."}), 401
 
-    stmt = text(f"DELETE FROM Post WHERE Post.id = {post.id}")
+    stmt = stmts.posts_delete_stmt(post.id)
     response = db.engine.execute(stmt)
 
     return jsonify({"message": "Successfully deleted post"})
@@ -320,7 +320,7 @@ def comments_delete(comment_id):
     if current_user["id"] != comment.user_id:
         return jsonify({"error": "You are not signed in or are trying to delete a comment that isn't yours."}), 401
 
-    stmt = text(f"DELETE FROM Comment WHERE Comment.id = {comment_id}")
+    stmt = stmts.comments_delete_stmt(comment_id)
     response = db.engine.execute(stmt)
 
     return jsonify({"message": "Successfully deleted comment"})

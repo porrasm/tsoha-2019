@@ -7,6 +7,7 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
 from sqlalchemy.sql import text
+import application.users.user_sql_statements as stmts
 
 @app.route("/api/login", methods=["POST"])
 def user_login(): 
@@ -143,7 +144,7 @@ def delete_user():
     id = identity["id"]
 
     # Delete user
-    stmt = text(f"DELETE FROM Account WHERE Account.id = {id}")
+    stmt = stmts.delete_user_stmt(id)
     response = db.engine.execute(stmt)
 
     return jsonify({"message": "Succesfully deleted account"}), 200
