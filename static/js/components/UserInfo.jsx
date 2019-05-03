@@ -6,6 +6,7 @@ import { Table, Message, Container, Divider, Header, Tab } from 'semantic-ui-rea
 import users from '../services/users'
 import { Redirect } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import PostList from './PostList'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from '../reducers/userReducer'
@@ -17,8 +18,7 @@ class UserInfo extends React.Component {
         super(props)
 
         this.state = {
-            info: null,
-            posts: []
+            info: null
         }
     }
 
@@ -27,20 +27,9 @@ class UserInfo extends React.Component {
         console.log('Getting user info: ', this.props.user_id)
 
         const user_request = users.getUserInfo(this.props.user_id)
-        const post_request = posts.getByUserID(this.props.user_id)
         user_request.then(response => {
             console.log('Received user info response: ', response)
             this.setState({ info: response })
-        })
-        post_request.then(response => {
-
-            if (!response) {
-                console.log('Posts were null')
-                return
-            }
-
-            console.log('Received user info response: ', response)
-            this.setState({ posts: response })
         })
     }
 
@@ -77,41 +66,6 @@ class UserInfo extends React.Component {
         return words.charAt(0).toUpperCase() + words.substr(1)
     }
 
-    postListings() {
-
-        console.log('in post listings: ', posts.length)
-    
-        return (
-            <Table>
-                <Table.Body>
-                    {this.state.posts.map(post => this.singlePost(post))}
-    
-                </Table.Body>
-            </Table>
-        )
-    }  
-    singlePost(post) {
-    
-        const postUrl = "/posts/" + post.id
-        console.log(postUrl)
-    
-        return (
-            <Table.Row key={post.id}>
-                <Table.Cell>
-                   
-                        <Message>
-                            <Message.Header><Link to={postUrl}>{post.title}</Link></Message.Header>
-                            <div>Likes {post.upvotes}</div>
-                            <div>Dislikes {post.downvotes}</div>
-                            <Divider />
-                            <p>{post.text}</p>
-                        </Message>
-                
-                </Table.Cell>
-            </Table.Row>
-        )
-    }
-
     render() {
 
         const info = this.state.info
@@ -133,8 +87,7 @@ class UserInfo extends React.Component {
                     <Header as="h2">
                         Posts by {info._username}
                     </Header>
-                    {this.postListings()}
-
+                    <PostList user_id={this.props.user_id}/>
                 </Container>
 
             </div>

@@ -24,7 +24,7 @@ class Post(db.Model):
         self.upvotes = upvotes
         self.downvotes = downvotes
 
-    def comments_with_authors(self):
+    def comments_with_authors(self, limit, offset):
 
         def row_to_comment(row):
             comment = {
@@ -43,7 +43,7 @@ class Post(db.Model):
 
             return comment
 
-        stmt = stmts.comments_with_authors_stmt(self.id)
+        stmt = stmts.comments_with_authors_stmt(self.id, limit, offset)
         response = db.engine.execute(stmt)
 
         comments = []

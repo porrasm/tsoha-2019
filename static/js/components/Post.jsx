@@ -18,6 +18,8 @@ class Post extends React.Component {
         const id = this.props.match.params.id
 
         this.state = {
+            page:  1,
+            got_page: 0,
             comment_response: null,
             id: id,
             post: null,
@@ -26,15 +28,37 @@ class Post extends React.Component {
     }
 
     componentDidMount() {
+        this.updatePost()
+    }
+    componentDidUpdate() {
+        this.updatePost()
+    }
 
-        const request = posts.getOne(this.state.id)
+    updatePost() {
+
+        const page = this.state.page
+
+        if (page == this.state.got_page) {
+            return
+        }
+
+        const request = posts.getOne(this.state.id, page)
 
         request.then(response => {
             console.log("get post response: ", response)
-
-
-            this.setState({ post: response })
+            this.setState({ post: response, got_page: page })
         })
+    }
+
+    changePage(amount) {
+
+        if (this.state.page + amount < 1) {
+            return
+        }
+
+        const newAmount = this.state.page + amount
+        
+        this.setState({ page: newAmount })
     }
 
     comments() {
@@ -54,9 +78,14 @@ class Post extends React.Component {
                 setCommentResponseID={this.setCommentResponseID.bind(this)} />
         ))
 
-        return (<Comment.Group>
-            {commentList}
-        </Comment.Group>)
+        return (
+            <div>
+                <Comment.Group>
+                    {commentList}
+                </Comment.Group>
+                <Label onClick={() => this.changePage(-1)}>Previous page</Label> <Label>{this.state.page}</Label> <Label onClick={() => this.changePage(1)}>Next page</Label>
+            </div>
+        )
     }
     mapCommentResponses(oldComments) {
 
@@ -72,7 +101,11 @@ class Post extends React.Component {
         return oldComments.map(comment => {
             if (comment.response_id) {
                 const responseTo = comments.get(comment.response_id)
-                comment.response_to = { username: responseTo.user_username, order_id: responseTo.order_id }
+                try {
+                    comment.response_to = { username: responseTo.user_username, order_id: responseTo.order_id }
+                } catch (error) {
+                    comment.response_to = "RESPONSE"
+                }
             }
             return comment
         })
@@ -110,14 +143,14 @@ class Post extends React.Component {
     }
     updateComment(newComment) {
         const post = this.state.post
-        
+
         for (let i = 0; i < post.comments; i++) {
             if (post.comments[i].id == newComment.id) {
                 post.comments[i] = newComment
                 break
             }
         }
-        
+
         this.setState({ post })
     }
     deletePost() {
