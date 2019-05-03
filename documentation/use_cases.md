@@ -176,7 +176,7 @@ Endpoint: GET /api/users/active
 
 SELECT Account.username, Account.id, 
 
-(WCAST((
+(CAST((
     COALESCE(SUM(distinct Post.upvotes),0) + 
     COALESCE(SUM(distinct Comment.upvotes),0)) AS FLOAT) / 
 CAST((
