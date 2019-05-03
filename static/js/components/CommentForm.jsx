@@ -60,9 +60,10 @@ class CommentForm extends React.Component {
 
             if (!res.error) {
 
-                console.log('Comment updated successfully')
+                console.log('Comment updated successfully: ', res)
 
                 this.setState({ message: 'Updated comment', comment: null })
+                this.props.updateComment(res)
             } else {
 
                 console.log('Comment update failed: ', res)

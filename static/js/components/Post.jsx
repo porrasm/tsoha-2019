@@ -108,6 +108,18 @@ class Post extends React.Component {
         post.comments = post.comments.concat(comment)
         this.setState({ post })
     }
+    updateComment(newComment) {
+        const post = this.state.post
+        
+        for (let i = 0; i < post.comments; i++) {
+            if (post.comments[i].id == newComment.id) {
+                post.comments[i] = newComment
+                break
+            }
+        }
+        
+        this.setState({ post })
+    }
     deletePost() {
 
         if (!window.confirm("Are you sure you wish to delete this post?")) {
@@ -159,6 +171,7 @@ class Post extends React.Component {
         const commentForm = user ? (
             <CommentForm post={this.state.post}
                 appendComment={this.appendComment.bind(this)}
+                updateComment={this.updateComment.bind(this)}
                 comment_response={this.state.comment_response} />) : null
 
         let deleteButton = null
