@@ -8,12 +8,12 @@ const createComment = async (comment, post_id, comment_id) => {
     try {
         const comment_id_fixed = comment_id ? comment_id : -1
 
-    const config = {
-        headers: { 'Authorization': getToken() }
-    }
+        const config = {
+            headers: { 'Authorization': getToken() }
+        }
 
-    const response = await axios.post(`${baseUrl}/${post_id}/${comment_id_fixed}`, {comment: comment}, config)
-    return response.data
+        const response = await axios.post(`${baseUrl}/${post_id}/${comment_id_fixed}`, { comment: comment }, config)
+        return response.data
     } catch (error) {
         return error.response.data
     }
@@ -24,7 +24,7 @@ const updateComment = async (newComment) => {
         const config = {
             headers: { 'Authorization': getToken() }
         }
-    
+
         const response = await axios.put(`${baseUrl}/${newComment.id}`, newComment, config)
         return response.data
     } catch (error) {

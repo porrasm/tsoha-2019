@@ -1,9 +1,6 @@
 import React from 'react'
-
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom'
 import posts from '../services/posts'
-
 import { Table, Message, Divider, Container, Label } from 'semantic-ui-react'
 
 class PostList extends React.Component {
@@ -55,7 +52,7 @@ class PostList extends React.Component {
         }
 
         const newAmount = this.state.page + amount
-        
+
         this.setState({ page: newAmount })
     }
 
@@ -108,10 +105,5 @@ const singlePost = (post) => {
         </Table.Row>
     )
 }
-
-/*
-<p>POST LINK <Link to={postUrl}>Posts</Link></p>
-                    <p>{post.text}</p> 
-*/
 
 export default PostList

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import posts from '../services/posts'
-import { Form, TextArea, Button } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 
 class PostForm extends React.Component {
@@ -12,7 +11,7 @@ class PostForm extends React.Component {
             title: '',
             text: ''
         }
-    }  
+    }
 
     createPost(event) {
         event.preventDefault()
@@ -35,7 +34,7 @@ class PostForm extends React.Component {
                 title: '',
                 text: '',
                 message: res.error
-            })       
+            })
         })
 
 
@@ -66,7 +65,7 @@ class PostForm extends React.Component {
 
                 <form onSubmit={this.createPost.bind(this)}>
                     Title
-                    <div>                    
+                    <div>
                         <textarea
                             value={this.state.title}
                             name='title'
@@ -74,7 +73,7 @@ class PostForm extends React.Component {
                         />
                     </div>
                     Text
-                    <div> 
+                    <div>
                         <textarea
                             value={this.state.text}
                             name='text'
@@ -87,37 +86,6 @@ class PostForm extends React.Component {
             </div>
         )
     }
-
-    /* renderOld() {
-         return (
-             <div>
-                 <h2>Create post</h2>
- 
-                 <form onSubmit={this.createPost.bind(this)}>
-                     <div>
-                         Title
-                         <input
-                             value={this.state.title}
-                             name='title'
-                             onChange={this.handleChange.bind(this)}
-                         />
-                     </div>
-                     <div>
-                         Text
-                         <input
-                             value={this.state.text}
-                             name='text'
-                             onChange={this.handleChange.bind(this)}
-                         />
-                     </div>
- 
-                     <button type="submit">Create post</button>
-                 </form>
-             </div>
-         )
-     }
- 
-     */
 }
 
 export default PostForm

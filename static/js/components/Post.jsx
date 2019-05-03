@@ -2,12 +2,11 @@ import React from "react";
 import posts from '../services/posts'
 import CommentContainer from '../components/Comment'
 import CommentForm from '../components/CommentForm'
-import { Table, Message, Container, Divider, Header, Comment, Button, Label } from 'semantic-ui-react'
+import { Container, Divider, Header, Comment, Label } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { setCurrentUser } from '../reducers/userReducer'
 
 class Post extends React.Component {
     constructor(props) {
@@ -18,7 +17,7 @@ class Post extends React.Component {
         const id = this.props.match.params.id
 
         this.state = {
-            page:  1,
+            page: 1,
             got_page: 0,
             comment_response: null,
             id: id,
@@ -57,7 +56,7 @@ class Post extends React.Component {
         }
 
         const newAmount = this.state.page + amount
-        
+
         this.setState({ page: newAmount })
     }
 

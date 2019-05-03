@@ -1,7 +1,7 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import users from '../services/users'
-import { Table, Message, Divider, Container } from 'semantic-ui-react'
+import { Table, Divider, Container } from 'semantic-ui-react'
 
 class TopUsers extends React.Component {
 

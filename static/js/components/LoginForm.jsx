@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import users from '../services/users'
-import { Form, TextArea, Button, Message } from 'semantic-ui-react'
+import { Message } from 'semantic-ui-react'
 
 import { connect } from 'react-redux'
 import { setCurrentUser } from '../reducers/userReducer'
@@ -141,7 +141,7 @@ class RegisterForm extends React.Component {
         request.then(res => {
 
             console.log("res status: ", res.status)
-            
+
             if (res.error) {
 
                 console.log('Login failed', res)

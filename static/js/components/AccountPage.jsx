@@ -1,15 +1,10 @@
 import React from "react";
-import posts from '../services/posts'
-import Comment from '../components/Comment'
-import CommentForm from '../components/CommentForm'
-import { Table, Message, Container, Divider, Header } from 'semantic-ui-react'
+import { Container, Divider } from 'semantic-ui-react'
 import users from '../services/users'
 import { Redirect } from 'react-router-dom'
 import UserInfo from './UserInfo'
-
 import { connect } from 'react-redux'
 import { setCurrentUser } from '../reducers/userReducer'
-
 
 class AccountPage extends React.Component {
 

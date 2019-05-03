@@ -1,6 +1,5 @@
 import React from "react";
-import { Menu } from 'semantic-ui-react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import Home from './components/Home'
 import MenuViews from './MenuViews'
@@ -47,10 +46,10 @@ class App extends React.Component {
                         <Route exact path="/" render={() => <Home />} />
                         <Route exact path="/" render={() => <PostList />} />
                         <Route exact path="/posts/:id" component={Post} />
-                        <Route exact path="/create" render={() => <PostForm user={this.props.userContainer.current_user}/>} />
+                        <Route exact path="/create" render={() => <PostForm user={this.props.userContainer.current_user} />} />
                         <Route exact path="/login" render={() => <LoginForm.LoginForm />} />
                         <Route exact path="/register" render={() => <LoginForm.RegisterForm />} />
-                        <Route exact path="/account" render={() => <AccountPage user_id={this.props.userContainer.current_user ? this.props.userContainer.current_user.id : null}/>} />
+                        <Route exact path="/account" render={() => <AccountPage user_id={this.props.userContainer.current_user ? this.props.userContainer.current_user.id : null} />} />
                         <Route exact path="/users/:user_id" component={AccountPage} />
                         <Route exact path="/top_users" render={() => <TopUsers />} />
                     </div>

@@ -1,6 +1,5 @@
 import React from "react";
-import posts from '../services/posts'
-import { Table, Message, Container, Divider, Comment, Form } from 'semantic-ui-react'
+import { Message, Divider, Comment } from 'semantic-ui-react'
 import comments from '../services/comments'
 import { Link } from 'react-router-dom'
 
@@ -54,14 +53,6 @@ class CommentContainer extends React.Component {
                     </Comment.Content>
 
                 </Comment>
-            </div>
-        )
-
-        return (
-            <div>
-                <Message>
-                    <p>{comment.text}</p>
-                </Message>
             </div>
         )
     }

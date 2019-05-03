@@ -1,12 +1,9 @@
 import React from "react";
-import posts from '../services/posts'
-import { Table, Message, Container, Divider, Comment, Form, Label } from 'semantic-ui-react'
-import comments from '../services/comments'
+import { Container, Label } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 class Home extends React.Component {
     render() {
-
 
         return (
             <div>

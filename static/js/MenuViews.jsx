@@ -1,11 +1,8 @@
 import React from "react";
 import { Menu } from 'semantic-ui-react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setCurrentUser } from './reducers/userReducer'
-
-import userReducer from './reducers/userReducer'
 
 class Menus extends React.Component {
 
@@ -51,7 +48,7 @@ class Menus extends React.Component {
 
                     {userButton}
                     {loginButton}
-                    
+
                 </Menu>
             </div>
         )

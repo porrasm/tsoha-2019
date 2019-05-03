@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import comments from '../services/comments'
 
 class CommentForm extends React.Component {
@@ -20,7 +20,7 @@ class CommentForm extends React.Component {
         if (this.state.edit_id && this.props.comment_response.edit) {
             this.updateComment()
             return
-        } 
+        }
 
         console.log('Creating comment for post')
 
@@ -114,47 +114,6 @@ class CommentForm extends React.Component {
         } else if (this.state.edit_id) {
             const savedText = this.state.saved_text
             this.setState({ edit_id: null, comment_text: savedText, saved_text: null })
-        }
-
-        return
-
-        if (response) {
-            if (response.edit) {
-                // HERE WE SHOULD RE RENDER
-
-                if (this.state.edit_id != response.id) {
-                    const oldText = this.state.comment_text
-                    this.setState({ comment_text: response.edit_text, edit_id: response.id, saved_text: oldText })
-                }
-            } else if (this.state.edit_id) {
-                this.setState({ edit_id: null })
-            }
-
-        }
-
-        return
-
-
-        return
-
-
-        return
-        if (response) {
-            if (response.edit) {
-                // Editing comment
-
-                if (!response.edit_id) {
-                    // Setting comment field text
-                    this.setState({ comment_text: response.edit_text, edit_id: response.id })
-                } else if (response.edit_id != response.id) {
-                    this.setState({ comment_text: response.edit_text, edit_id: response.id })
-                }
-            } else {
-                if (this.state.edit_id) {
-                    // Resetting edit state to reply state
-                    this.setState({ edit_id: null })
-                }
-            }
         }
     }
 

@@ -1,16 +1,7 @@
 import React from "react";
-import posts from '../services/posts'
-import Comment from '../components/Comment'
-import CommentForm from '../components/CommentForm'
-import { Table, Message, Container, Divider, Header, Tab } from 'semantic-ui-react'
+import { Table, Container, Divider, Header } from 'semantic-ui-react'
 import users from '../services/users'
-import { Redirect } from 'react-router-dom'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import PostList from './PostList'
-
-import { connect } from 'react-redux'
-import { setCurrentUser } from '../reducers/userReducer'
-
 
 class UserInfo extends React.Component {
 
@@ -87,7 +78,7 @@ class UserInfo extends React.Component {
                     <Header as="h2">
                         Posts by {info._username}
                     </Header>
-                    <PostList user_id={this.props.user_id}/>
+                    <PostList user_id={this.props.user_id} />
                 </Container>
 
             </div>
