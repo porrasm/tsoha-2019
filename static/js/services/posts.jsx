@@ -3,22 +3,27 @@ const baseUrl = "/api/posts"
 
 let user
 
-const getAll = async () => {
-    const response = await axios.get(baseUrl)
-    return response.data
+const getAll = async (page) => {
+
+    try {
+        const response = await axios.get(baseUrl + "/page/" + page)
+        return response.data
+    } catch (error) {
+        return []
+    }
 }
 
-const getOne = async (id) => {
-    console.log('GET post: ', id)
-    const response = await axios.get(baseUrl + "/" + id)
+const getOne = async (id, comment_page) => {
+    console.log('GET post: ', id, " with page: ", comment_page)
+    const response = await axios.get(baseUrl + "/" + id + "/" + comment_page)
     return response.data
 }
-const getByUserID = async (user_id) => {
+const getByUserID = async (user_id, page) => {
 
     console.log('Getting posts by user: ', user_id)
 
     try {
-        const response = await axios.get(baseUrl + "/by/" + user_id)
+        const response = await axios.get(baseUrl + "/by/" + user_id + "/" + page)
         return response.data
     } catch (error) {
         console.log('Error liking post: ', error)
@@ -32,7 +37,7 @@ const create = async (newObject) => {
         return response.data
     } catch (error) {
         return error.response.data
-    } 
+    }
 }
 
 const setUser = (newUser) => {
@@ -71,10 +76,10 @@ const dislike = async (id) => {
     }
 }
 const deletePost = async (id) => {
-    try {   
+    try {
         const response = await axios.delete(baseUrl + "/" + id, config())
         return response.data
-    } catch(error) {
+    } catch (error) {
         console.log('Error deleting post')
         return false
     }

@@ -9,27 +9,40 @@ import application.posts.post_sql_statements as stmts
 
 route = "/api/posts"
 
+posts_per_page = 2
+comments_per_page = 2
+
 # All posts
-@app.route(f"{route}", methods=["GET"])
-def posts_index():
+@app.route(f"{route}/page/<page>", methods=["GET"])
+def posts_all(page):
 
-    all = Post.query.all()
+    page_int = int(page)
 
-    print("query length: ", len(all))
+    posts = Post.query.order_by(
+            Post.date_created.desc()
+        ).paginate(page_int, posts_per_page)
 
-    posts = posts_schema.dump(Post.query.all()).data
+    posts = posts.items
 
-    print("returning posts ", len(posts))
+    print("query: ", posts)
+
+    posts = posts_schema.dump(posts).data
+
+    #print("returning posts ", len(posts))
 
     return jsonify(posts)
 
 # Posts by user
-@app.route(f"{route}/by/<user_id>", methods=["GET"])
-def posts_by_user(user_id):
+@app.route(f"{route}/by/<user_id>/<page>", methods=["GET"])
+def posts_by_user(user_id, page):
+
+    print("\nposts by user: ", page)
+        
+    offset = (int(page) - 1) * int(posts_per_page)
 
     print("\nGetting posts by user: " + user_id)
 
-    stmt = stmts.posts_by_user_stmt(user_id)
+    stmt = stmts.posts_by_user_stmt(user_id, posts_per_page, offset)
     response = db.engine.execute(stmt)
 
     posts = []
@@ -46,13 +59,17 @@ def posts_by_user(user_id):
 
 
 # Single post
-@app.route(f"{route}/<post_id>/", methods=["GET"])
-def posts_get(post_id):
+@app.route(f"{route}/<post_id>/<comment_page>", methods=["GET"])
+def posts_get(post_id, comment_page):
+
+    print("\nReturning single post: ", post_id, ", comment page: ", comment_page)
+
+    comment_offset = (int(comment_page) - 1) * comments_per_page
 
     post = Post.query.get(post_id)
     post_user = User.query.get(post.user_id)
     post_comments = Comment.query.filter_by(post_id=post.id)
-    post_comments = post.comments_with_authors()
+    post_comments = post.comments_with_authors(comments_per_page, comment_offset)
 
     print("\npost: ", post)
     print("post comments: ", post.comments)

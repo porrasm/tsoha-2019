@@ -48,6 +48,11 @@ Editing posts or comments should not be allowed.
 
 ## Added functionality
 
+### Basic functionality
+
+- pagination for posts
+- pagination for comments
+
 ### User page
 
 - users can see view another users page

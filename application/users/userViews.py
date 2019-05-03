@@ -163,6 +163,7 @@ def get_user_info(user_id):
     response = {}
 
     response["_username"] = database_user.username
+    response["_id"] = database_user.id
 
     response["post_amount"] = database_user.post_amount()
     response["post_like_ratio"] = database_user.post_like_ratio()

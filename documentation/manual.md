@@ -32,6 +32,8 @@ Click on any post to see more information on it. While in the post page you can 
 
 You can reply and or edit comments. Click 'reply' on any comment to reply to it. The comment field will display which comment you're replying to or if you are editing a comment. Write your comment as you normally would to reply or edit the comment.
 
+You can filter posts and comments by changing the page number.
+
 ### User views
 
 You can view any users page and all his posts. The page will also show various statistics on the user.

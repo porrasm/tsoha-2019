@@ -7,6 +7,8 @@
 
 ## Use cases
 
+This page shows all the use cases of the application and knows problems and limitations.
+
 ### Viewing posts & users
 
 The user can view all the posts without signing in. He however cannot like, dislike or comment on the posts.
@@ -17,7 +19,7 @@ All posts can be viewed on the home page.
 Query for all posts:
 Endpoint: GET /api/posts
 
-SELECT * FROM Post
+SELECT * FROM Post ORDER BY Post.date_created LIMIT {limit} OFFSET {offset}
 ```
 
 The user can also view posts by a certain user.
@@ -26,10 +28,10 @@ The user can also view posts by a certain user.
 Query for all posts by user:
 Endpoint: GET /api/posts/by/user_id
 
-SELECT * FROM Post WHERE Post.user_id = {user_id}
+SELECT * FROM Post WHERE Post.user_id = {user_id} ORDER BY Post.date_created LIMIT {limit} OFFSET {offset}
 ```
 
-Currently the user can view a single post but this isn't done in a single query.
+Currently the user can view a single post but this isn't done in a single query. The post view lists the comments by page and shows resposnse. However if the response of the comment is one another page, the page will not show which comment it is responding to.
 ```sql
 Queries for a single post:
 Endpoint: GET /api/posts/post_id
@@ -43,6 +45,7 @@ Post comments:  SELECT Comment.id, Comment.text, Comment.upvotes, Comment.downvo
                 FROM Comment LEFT JOIN Account ON
                 Comment.user_id = Account.id
                 WHERE Comment.post_id = {post.id}
+                ORDER BY Comment.date_created LIMIT {limit} OFFSET {offset}
 ```
 
 When in the user page, the page will show all the posts by the user. On top of this it shows statistics about the user.
