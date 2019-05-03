@@ -4,7 +4,7 @@ from sqlalchemy.sql import text
 production = os.environ.get("HEROKU")
 
 # User functions
-def delete_user_stmt():
+def delete_user_stmt(user_id):
     return text(f"DELETE FROM Account WHERE Account.id = :user_id").params(user_id=user_id)
 
 # User statistics
