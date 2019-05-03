@@ -18,8 +18,10 @@ Current database schema:
 
 Users will have a username and they can have many posts. Comments have a related post and a user. In the future the comments will most likely have a response comment as well.
 
+Upvote and downvote fields are not normalized for two reasons: it would take extra time to calculate these every time a post is viewed (especially with a lot of upvotes/downvotes) and when a user (and his votes in the same process) are deleted the upvote and downvote amount on a post or comment is not changed. The deletion of a user should not change the amount of votes on a single post or comment.
+
 Database schema in text:
-```
+```sql
 CREATE TABLE account (
         id INTEGER NOT NULL,
         date_created DATETIME,

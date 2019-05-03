@@ -39,25 +39,27 @@ Editing posts or comments should not be allowed.
 - a signed in user can delete his or her post
 - a signed in user can delete his or her comment
 
-## Current functionality
+## Missing functionality from original plan
 
 ### Basic functionality
 
-- users can view posts
-- the amount of likes and dislikes will be visible
+- users can search for posts
+- users can filter posts
 
-### Account management
+## Added functionality
 
-- a user can create an account
-- a user can sign in
-- a user can delete his or her account
+### User page
+
+- users can see view another users page
+- users can see the posts by a certain user
+- users can view statistics by a certain user
+
+### Top users page
+
+- users can see the top 10 most active users in the last 7 days
+- users can see the top 10 highest rated users
 
 ### Signed in users
 
-- a signed in user can create posts
-- a signed in user can create comments
-- a signed in user can reply to a comment
-- a signed in user can upvote/downvote posts
-- a signed in user can upvote/downvote comments (refresh browser)
-- a signed in user can delete his or her post
-- a signed in user can delete his or her comment (refresh browser)
+- a signed in user can edit his/her comments
+- a signed in user can edit his/her account
