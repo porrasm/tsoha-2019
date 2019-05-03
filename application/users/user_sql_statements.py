@@ -5,30 +5,30 @@ production = os.environ.get("HEROKU")
 
 # User functions
 def delete_user_stmt():
-    return text(f"DELETE FROM Account WHERE Account.id = {user_id}")
+    return text(f"DELETE FROM Account WHERE Account.id = :user_id").params(user_id=user_id)
 
 # User statistics
 def post_amount_stmt(user_id):
-    return text(f"""SELECT COUNT(*) FROM Post WHERE Post.user_id = {user_id}""")
+    return text(f"""SELECT COUNT(*) FROM Post WHERE Post.user_id = :user_id""").params(user_id=user_id)
 
 def post_like_ratio_stmt(user_id):
 
     # Likes / Likes + Dislikes
     return text(f"""SELECT 
-    CAST((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = {user_id}) AS FLOAT) 
+    CAST((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) AS FLOAT) 
     / 
-    CAST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = {user_id}) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = {user_id})) AS FLOAT)""")
+    CAST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = :user_id)) AS FLOAT)""").params(user_id=user_id)
 
 def comment_amount_stmt(user_id):
-    return text(f"""SELECT COUNT(*) FROM Comment WHERE Comment.user_id = {user_id}""")
+    return text(f"""SELECT COUNT(*) FROM Comment WHERE Comment.user_id = :user_id""").params(user_id=user_id)
 
 def comment_like_ratio_stmt(user_id):
 
     # Likes / Likes + Dislikes
     return text(f"""SELECT 
-    CAST((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = {user_id}) AS FLOAT) 
+    CAST((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) AS FLOAT) 
     / 
-    CAST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = {user_id}) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = {user_id})) AS FLOAT)""")
+    CAST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = :user_id)) AS FLOAT)""").params(user_id=user_id)
 
 
 # Top users
