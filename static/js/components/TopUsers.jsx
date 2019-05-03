@@ -32,7 +32,10 @@ class TopUsers extends React.Component {
         console.log('users: ', this.state.active_users)
 
         const table_a = userListing(this.state.active_users, 'User', 'Post amount')
-        const table_b = userListing(this.state.rated_users, 'User', 'Like ratio')
+        const table_b = userListing(this.state.rated_users.map(user => {
+            user.value = (user.value * 100).toFixed(1) + '%'
+            return user
+        }), 'User', 'Like ratio')
 
         return (
             <Container>

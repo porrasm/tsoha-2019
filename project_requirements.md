@@ -10,7 +10,7 @@ This is a text file to keep track of which project requirements have been fulfil
 ? kyselyiden toteuttaminen tehokkaasti (yhdellä kyselyllä toteutettavissa olevat asiat tehdään yhdellä kyselyllä useamman sijaan)
 ? Sovelluksen yleiskuva (ml. tyylit) on yhtenäinen ja sen käyttö tuntuu luontevalta
 
-? Mahdolliset virhetilanteet tuottavat ymmärrettäviä virheviestejä. Sovellus on käytettävä myös laajemmilla tietomäärillä (sivutus, tiedon hakeminen).
+- Sovellus on käytettävä myös laajemmilla tietomäärillä (sivutus, tiedon hakeminen).
 
 ? Sovellus ei sisällä tuotantoympäristön salasanoja tms. 
 
