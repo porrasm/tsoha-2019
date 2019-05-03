@@ -50,7 +50,7 @@ def highest_rated_users_stmt():
     if production:
         return text(f"""SELECT Account.username, Account.id, 
                     (CAST((COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0)) AS FLOAT) / 
-                    WHEN CAST((COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Post.downvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0) + COALESCE(SUM(distinct Comment.downvotes),0)) AS FLOAT) = 0 THEN 1) as like_ratio
+                    CAST(WHEN (COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Post.downvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0) + COALESCE(SUM(distinct Comment.downvotes),0)) = 0 THEN 1 AS FLOAT)) as like_ratio
                     FROM Account LEFT JOIN Post ON Account.id = Post.user_id
                     LEFT JOIN Comment ON Account.id = Comment.user_id
                     GROUP BY Account.username, Account.id ORDER BY like_ratio DESC LIMIT 10""")
