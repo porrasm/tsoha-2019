@@ -137,7 +137,7 @@ Creating vote:      INSERT INTO Comment_Vote (comment_id, user_id, like)
 ```
 #### Deleting
 
-The user can delete his or her posts, comments and account.
+The user can delete his or her posts, comments and account. Currently however a user cannot be deleted sometimes if someone has comments in his posts. Also you might not be able to delete a post if it has comments.
 
 ```sql
 Query for deleting posts:
