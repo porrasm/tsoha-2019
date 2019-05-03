@@ -19,7 +19,7 @@ def user_login():
 
     if not database_user:
         # SEND HTTP CODE 401
-        return jsonify(None)
+        return jsonify({"error": "Incorrect username or password"}), 401
 
     return get_authenticated_user(database_user, False)
 

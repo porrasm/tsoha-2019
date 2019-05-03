@@ -5,7 +5,8 @@ let user
 
 const createComment = async (comment, post_id, comment_id) => {
 
-    const comment_id_fixed = comment_id ? comment_id : -1
+    try {
+        const comment_id_fixed = comment_id ? comment_id : -1
 
     const config = {
         headers: { 'Authorization': getToken() }
@@ -13,17 +14,22 @@ const createComment = async (comment, post_id, comment_id) => {
 
     const response = await axios.post(`${baseUrl}/${post_id}/${comment_id_fixed}`, {comment: comment}, config)
     return response.data
+    } catch (error) {
+        return error.response.data
+    }
 }
 
 const updateComment = async (newComment) => {
-
-
-    const config = {
-        headers: { 'Authorization': getToken() }
+    try {
+        const config = {
+            headers: { 'Authorization': getToken() }
+        }
+    
+        const response = await axios.put(`${baseUrl}/${newComment.id}`, newComment, config)
+        return response.data
+    } catch (error) {
+        return error.response.data
     }
-
-    const response = await axios.put(`${baseUrl}/${newComment.id}`, newComment, config)
-    return response.data
 }
 
 const setUser = (newUser) => {

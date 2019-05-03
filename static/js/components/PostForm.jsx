@@ -7,6 +7,7 @@ class PostForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            message: null,
             created_id: null,
             title: '',
             text: ''
@@ -32,7 +33,8 @@ class PostForm extends React.Component {
             this.setState({
                 created_id: res.id,
                 title: '',
-                text: ''
+                text: '',
+                message: res.error
             })       
         })
 
@@ -54,9 +56,13 @@ class PostForm extends React.Component {
             return <Redirect to={url} />
         }
 
+        const message = this.state.message ? (<p>{this.state.message}</p>) : null
+
         return (
             <div>
                 <h2>Create post</h2>
+
+                {message}
 
                 <form onSubmit={this.createPost.bind(this)}>
                     Title

@@ -26,8 +26,13 @@ const getByUserID = async (user_id) => {
 }
 
 const create = async (newObject) => {
-    const response = await axios.post(baseUrl + "/create", newObject, config())
-    return response.data
+
+    try {
+        const response = await axios.post(baseUrl + "/create", newObject, config())
+        return response.data
+    } catch (error) {
+        return error.response.data
+    } 
 }
 
 const setUser = (newUser) => {

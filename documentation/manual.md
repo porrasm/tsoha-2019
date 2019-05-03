@@ -6,7 +6,8 @@
 ## Installation
 
 - Clone this repository
-- Create a virtual environment
+- Create a virtual environment via `python3 -m venv venv`
+- Activate the environment via `source venv/bin/activate` or `source venv/Scripts/activate`
 - Install all requirements via `pip install -r requirements.txt`
 - Run the application via `python run.py` or `python3 run.py`
 - The application uses the port 5000 so visit the application in [here](localhost:5000)

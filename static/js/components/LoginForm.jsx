@@ -27,12 +27,12 @@ class LoginForm extends React.Component {
 
         request.then(res => {
 
-            if (!res) {
+            if (res.error) {
 
                 console.log('Login failed', res)
 
                 this.setState({
-                    message: 'Incorrect username or password'
+                    message: res.error
                 })
             } else {
 
@@ -142,12 +142,12 @@ class RegisterForm extends React.Component {
 
             console.log("res status: ", res.status)
             
-            if (!res.user) {
+            if (res.error) {
 
                 console.log('Login failed', res)
 
                 this.setState({
-                    message: 'Username is already taken'
+                    message: res.error
                 })
             } else {
 

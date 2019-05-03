@@ -9,7 +9,7 @@ class CommentContainer extends React.Component {
     render() {
 
         const comment = this.props.comment
-        const response = comment.response_to ? (<div>Response to: {comment.response_to.username} #{comment.response_to.order_id}:{"\n"}</div>) : null
+        const response = comment.response_to ? (<div>Response to: #{comment.response_to.order_id} {comment.response_to.username} :{"\n"}</div>) : null
 
         const userActions = this.props.user.id == this.props.comment.user_id || this.props.user.username == 'admin' ?
             (<span><Comment.Action onClick={() => this.props.setCommentResponseID({ edit: true, id: comment.id, order_id: comment.order_id, edit_text: comment.text, edit_comment: comment })}>Edit</Comment.Action>

@@ -36,7 +36,7 @@ class CommentForm extends React.Component {
 
         request.then(res => {
 
-            if (res.text) {
+            if (!res.error) {
 
                 console.log('Comment created successfully')
 
@@ -45,7 +45,7 @@ class CommentForm extends React.Component {
             } else {
 
                 console.log('Commenting failed: ', res)
-                this.setState({ message: 'Failed to create comment' })
+                this.setState({ message: res.error })
             }
             this.removeMessage()
         })
@@ -58,7 +58,7 @@ class CommentForm extends React.Component {
 
         request.then(res => {
 
-            if (res.text) {
+            if (!res.error) {
 
                 console.log('Comment updated successfully')
 
@@ -66,7 +66,7 @@ class CommentForm extends React.Component {
             } else {
 
                 console.log('Comment update failed: ', res)
-                this.setState({ message: 'Failed to update comment' })
+                this.setState({ message: res.error })
             }
             this.removeMessage()
         })
