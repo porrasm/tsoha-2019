@@ -1,15 +1,15 @@
 import os
 from sqlalchemy.sql import text
 
-heroku = os.environ.get("HEROKU")
+production = os.environ.get("HEROKU")
 
 def most_active_users_stmt():
 
-    if heroku:
+    if production:
         return text(f"""SELECT Account.username, Account.id, COUNT(*) as post_count
                     FROM Account LEFT JOIN Post ON Account.id = Post.user_id
                     AND Post.date_created <= now() - interval '7 day'
-                    GROUP BY Account.username ORDER BY post_count DESC LIMIT 10""")
+                    GROUP BY Account.username, Account.id ORDER BY post_count DESC LIMIT 10""")
     else:
         return text(f"""SELECT Account.username, Account.id, COUNT(*) as post_count
                     FROM Account LEFT JOIN Post ON Account.id = Post.user_id
@@ -18,7 +18,7 @@ def most_active_users_stmt():
 
 def highest_rated_users_stmt():
 
-    if heroku:
+    if production:
         return text(f"""SELECT Account.username, Account.id, 
                     (CAST((COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0)) AS FLOAT) / 
                     CAST((COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Post.downvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0) + COALESCE(SUM(distinct Comment.downvotes),0)) AS FLOAT)) as like_ratio
