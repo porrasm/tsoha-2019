@@ -17,7 +17,7 @@ def post_like_ratio_stmt(user_id):
     return text(f"""SELECT 
     CAST((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) AS FLOAT) 
     / 
-    CAST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = :user_id)) AS FLOAT)""").params(user_id=user_id)
+    CAST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = :user_id)) WHEN 0 THEN 1 AS FLOAT)""").params(user_id=user_id)
 
 def comment_amount_stmt(user_id):
     return text(f"""SELECT COUNT(*) FROM Comment WHERE Comment.user_id = :user_id""").params(user_id=user_id)
@@ -28,7 +28,7 @@ def comment_like_ratio_stmt(user_id):
     return text(f"""SELECT 
     CAST((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) AS FLOAT) 
     / 
-    CAST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = :user_id)) AS FLOAT)""").params(user_id=user_id)
+    CAST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = :user_id)) WHEN 0 THEN 1  AS FLOAT)""").params(user_id=user_id)
 
 
 # Top users
