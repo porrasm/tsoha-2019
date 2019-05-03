@@ -172,7 +172,7 @@ GROUP BY Account.username ORDER BY post_count DESC LIMIT 10
 ```
 ```sql
 Query for 10 highest reated users:
-Endpoint: GET /api/users/active
+Endpoint: GET /api/users/rated
 
 SELECT Account.username, Account.id, 
 

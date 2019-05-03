@@ -2,6 +2,7 @@ from application import db, ma
 from werkzeug.security import safe_str_cmp
 from application.posts.postModels import Post, Comment
 from sqlalchemy.sql import text
+import application.users.sqlStatements as queries
 
 # Models
 class User(db.Model):
@@ -94,10 +95,7 @@ class User(db.Model):
     @staticmethod
     def most_active_users():
 
-        stmt = text(f"""SELECT Account.username, Account.id, COUNT(*) as post_count
-                        FROM Account LEFT JOIN Post ON Account.id = Post.user_id
-                        AND Post.date_created <= DATE('now', '-7 day')
-                        GROUP BY Account.username ORDER BY post_count DESC LIMIT 10""")
+        stmt = queries.most_active_users_stmt()
 
         response = db.engine.execute(stmt)
 
@@ -118,12 +116,7 @@ class User(db.Model):
     @staticmethod
     def highest_rated_users():
 
-        stmt = text(f"""SELECT Account.username, Account.id, 
-                        (CAST((COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0)) AS FLOAT) / 
-                        CAST((COALESCE(SUM(distinct Post.upvotes),0) + COALESCE(SUM(distinct Post.downvotes),0) + COALESCE(SUM(distinct Comment.upvotes),0) + COALESCE(SUM(distinct Comment.downvotes),0)) AS FLOAT)) as like_ratio
-                        FROM Account LEFT JOIN Post ON Account.id = Post.user_id
-                        LEFT JOIN Comment ON Account.id = Comment.user_id
-                        GROUP BY Account.username ORDER BY like_ratio DESC LIMIT 10""")              
+        stmt = queries.highest_rated_users_stmt()
 
         response = db.engine.execute(stmt)
 
