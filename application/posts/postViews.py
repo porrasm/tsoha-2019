@@ -9,8 +9,8 @@ import application.posts.post_sql_statements as stmts
 
 route = "/api/posts"
 
-posts_per_page = 2
-comments_per_page = 2
+posts_per_page = 5
+comments_per_page = 5
 
 # All posts
 @app.route(f"{route}/page/<page>", methods=["GET"])
@@ -31,6 +31,7 @@ def posts_all(page):
     #print("returning posts ", len(posts))
 
     return jsonify(posts)
+
 
 # Posts by user
 @app.route(f"{route}/by/<user_id>/<page>", methods=["GET"])
