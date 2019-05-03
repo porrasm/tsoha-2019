@@ -13,12 +13,34 @@
 
 ## How to use
 
-Usage of the application is simple. You can navigate via the top navigation bar, which functionalities are quite self-evident.
+Usage of the application is simple. You can navigate via the top navigation bar, which has links to most important locations.
 
-In order to create a post you need to be signed in. Register a new account or sign in using the test admin account (admin, 12345). Username and passwords should be between 5-32 characters and the username cannot contain any special characters.
+### Home page and signing in
 
-You can edit your account information by clicking your name in the navigation bar. You can change your username or password. If you wish to change only one of them, leave the other field empty. You must provide your previous password to edit the account.
+You can view posts on the Home page. This will list all the posts on the site.
 
-While signed in you can create posts, comment on posts and like or dislike posts. You can also delete your own post. The admin account can delete anyones post.
+The menu bar has a link to the 'Register' and 'Login' pages. Fill in all the required information to register or sign in. Username and passwords should be between 5-32 characters and the username cannot contain any special characters.
 
-If you delete a post all comments on the post will also be deleted. If you delete your account, your every comment and post (along with other comments in your posts) will be deleted.
+When signed in you can create and vote posts and comments. 
+
+### Posts and comments
+
+The 'Create post' link will take you to the create post page where you will see two text fields, one for the title and one for the text. Click submit to create the post. This will automatically upvote the post and redirect you to the newly created post page.
+
+Click on any post to see more information on it. While in the post page you can upvoted or downvote the post. Below the post are all the comments and the commenting field. Write your comment and click submit to create comment.
+
+You can reply and or edit comments. Click 'reply' on any comment to reply to it. The comment field will display which comment you're replying to or if you are editing a comment. Write your comment as you normally would to reply or edit the comment.
+
+### User views
+
+You can view any users page and all his posts. The page will also show various statistics on the user.
+
+Click on any users name from a post or comment field to visit their page. If you click your own name on a post or comment field or in the navigation bar you can also edit your account.
+
+Editing your account is simple. Fill in the new username or password to update your account. You need to type in your old password in order to change any information.
+
+If you wish to delete your account click 'Delete account'. This will delete your account, all your posts and comments along with other peoples comments in your posts. This will not, however, remove your upvotes or downvotes on posts and comments although people can't see that you have liked them.
+
+### Top users page
+
+On the home page click 'Top users' to visit the top users page. This page will show the top 10 most active users in the past week and the top 10 highest rated users. Click on their names to visit their user pages.
