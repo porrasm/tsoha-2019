@@ -3,7 +3,7 @@
 
 [ReadIt Forum on Heroku](https://readit-forum.herokuapp.com/)
 
-[Use cases](https://github.com/porrasm/tsoha-2019/blob/master/documentation/user_cases.md)
+[Use cases](https://github.com/porrasm/tsoha-2019/blob/master/documentation/use_cases.md)
 
 # Database structure
 
@@ -79,4 +79,4 @@ CREATE TABLE comment_vote (
 );
 ```
 
-### For use cases and SQL queries see [use cases](https://github.com/porrasm/tsoha-2019/blob/master/documentation/user_cases.md)
+### For use cases and SQL queries see [use cases](https://github.com/porrasm/tsoha-2019/blob/master/documentation/use_cases.md)

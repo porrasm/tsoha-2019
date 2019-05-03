@@ -176,11 +176,14 @@ Endpoint: GET /api/users/active
 
 SELECT Account.username, Account.id, 
 
-(CAST((COALESCE(SUM(distinct Post.upvotes),0) + 
-COALESCE(SUM(distinct Comment.upvotes),0)) AS FLOAT) / 
-CAST((COALESCE(SUM(distinct Post.upvotes),0) + 
-COALESCE(SUM(distinct Post.downvotes),0) + 
-COALESCE(SUM(distinct Comment.upvotes),0) + COALESCE(SUM(distinct Comment.downvotes),0)) AS FLOAT)) as like_ratio
+(WCAST((
+    COALESCE(SUM(distinct Post.upvotes),0) + 
+    COALESCE(SUM(distinct Comment.upvotes),0)) AS FLOAT) / 
+CAST((
+    COALESCE(SUM(distinct Post.upvotes),0) + 
+    COALESCE(SUM(distinct Post.downvotes),0) + 
+    COALESCE(SUM(distinct Comment.upvotes),0) + 
+    COALESCE(SUM(distinct Comment.downvotes),0)) AS FLOAT)) as like_ratio
 
 FROM Account LEFT JOIN Post ON Account.id = Post.user_id
 LEFT JOIN Comment ON Account.id = Comment.user_id
