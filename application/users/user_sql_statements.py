@@ -14,10 +14,19 @@ def post_amount_stmt(user_id):
 def post_like_ratio_stmt(user_id):
 
     # Likes / Likes + Dislikes
-    return text(f"""SELECT 
-    CAST((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) AS FLOAT) 
-    / 
-    CAST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = :user_id)) AS FLOAT)""").params(user_id=user_id)
+    if production:
+        return text(f"""SELECT 
+                        CAST((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) AS FLOAT) 
+                        / 
+                        CAST(GREATEST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = :user_id)), 1) AS FLOAT)""").params(user_id=user_id)
+    else:
+        return text(f"""SELECT 
+                        CAST((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) AS FLOAT) 
+                        / 
+                        CAST(((SELECT SUM(upvotes) FROM Post WHERE Post.user_id = :user_id) + (SELECT SUM(downvotes) FROM Post WHERE Post.user_id = :user_id)) AS FLOAT)""").params(user_id=user_id)
+
+    
+    
 
 def comment_amount_stmt(user_id):
     return text(f"""SELECT COUNT(*) FROM Comment WHERE Comment.user_id = :user_id""").params(user_id=user_id)
@@ -25,10 +34,18 @@ def comment_amount_stmt(user_id):
 def comment_like_ratio_stmt(user_id):
 
     # Likes / Likes + Dislikes
-    return text(f"""SELECT 
-    CAST((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) AS FLOAT) 
-    / 
-    CAST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = :user_id)) AS FLOAT)""").params(user_id=user_id)
+    if production:
+        return text(f"""SELECT 
+                        CAST((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) AS FLOAT) 
+                        / 
+                        CAST(GREATEST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = :user_id)), 1) AS FLOAT)""").params(user_id=user_id)
+    else:
+        return text(f"""SELECT 
+                        CAST((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) AS FLOAT) 
+                        / 
+                        CAST(((SELECT SUM(upvotes) FROM Comment WHERE Comment.user_id = :user_id) + (SELECT SUM(downvotes) FROM Comment WHERE Comment.user_id = :user_id)) AS FLOAT)""").params(user_id=user_id)
+    
+    
 
 
 # Top users
